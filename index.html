@@ -1,0 +1,1449 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dosje: Threat Intelligence</title>
+<meta name="description" content="Interaktívna študijná stránka pre TIEv1 — 10 modulov, porovnania, kontrolné otázky a kartičky pojmov na prípravu na písomku.">
+<style>
+/* ===================== TOKENS ===================== */
+:root{
+  --bg:#eef1f5;
+  --surface:#ffffff;
+  --surface-2:#e3e8ef;
+  --surface-3:#d7dee7;
+  --ink:#10151d;
+  --ink-soft:#52606f;
+  --ink-faint:#7c8797;
+  --line:#ccd4de;
+  --line-strong:#b3bdc9;
+  --accent:#c76a1f;
+  --accent-ink:#8a4712;
+  --accent-soft:#f4e3d1;
+  --accent-2:#1c7a6e;
+  --accent-2-ink:#0e5148;
+  --accent-2-soft:#d7ede9;
+  --type-strategic:#4c5fd5;
+  --type-operational:#c76a1f;
+  --type-tactical:#1c7a6e;
+  --type-technical:#8452c9;
+  --shadow:0 1px 2px rgba(16,21,29,.06), 0 8px 24px -12px rgba(16,21,29,.18);
+  --radius-s:6px;
+  --radius-m:10px;
+  --radius-l:16px;
+  --font-display:"Iowan Old Style","Palatino Linotype",Palatino,"Noto Serif",Georgia,serif;
+  --font-body:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --font-mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,"Liberation Mono",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a0e14;
+    --surface:#121824;
+    --surface-2:#1a212f;
+    --surface-3:#232c3d;
+    --ink:#e7ecf3;
+    --ink-soft:#9aa7b8;
+    --ink-faint:#748294;
+    --line:#263041;
+    --line-strong:#334059;
+    --accent:#f0a052;
+    --accent-ink:#f6b877;
+    --accent-soft:#3a2a17;
+    --accent-2:#4fc9b8;
+    --accent-2-ink:#7ad9cb;
+    --accent-2-soft:#12312d;
+    --type-strategic:#8b9bff;
+    --type-operational:#f0a052;
+    --type-tactical:#4fc9b8;
+    --type-technical:#b58af0;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 28px -14px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0a0e14;
+  --surface:#121824;
+  --surface-2:#1a212f;
+  --surface-3:#232c3d;
+  --ink:#e7ecf3;
+  --ink-soft:#9aa7b8;
+  --ink-faint:#748294;
+  --line:#263041;
+  --line-strong:#334059;
+  --accent:#f0a052;
+  --accent-ink:#f6b877;
+  --accent-soft:#3a2a17;
+  --accent-2:#4fc9b8;
+  --accent-2-ink:#7ad9cb;
+  --accent-2-soft:#12312d;
+  --type-strategic:#8b9bff;
+  --type-operational:#f0a052;
+  --type-tactical:#4fc9b8;
+  --type-technical:#b58af0;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 28px -14px rgba(0,0,0,.6);
+}
+
+/* ===================== RESET-ISH ===================== */
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:.001ms !important; transition-duration:.001ms !important;} }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--font-display); text-wrap:balance; margin:0; color:var(--ink);}
+p{margin:0 0 1em; color:var(--ink);}
+p:last-child{margin-bottom:0;}
+ul,ol{margin:0 0 1em; padding-left:1.3em;}
+ul:last-child,ol:last-child{margin-bottom:0;}
+li{margin-bottom:.42em;}
+li:last-child{margin-bottom:0;}
+strong{color:var(--ink); font-weight:700;}
+a{color:var(--accent-ink);}
+::selection{background:var(--accent-soft); color:var(--ink);}
+code{font-family:var(--font-mono); font-size:.88em; background:var(--surface-2); padding:.1em .38em; border-radius:4px; color:var(--ink);}
+
+/* ===================== LAYOUT ===================== */
+.layout{
+  display:grid;
+  grid-template-columns:272px minmax(0,1fr);
+  max-width:1180px;
+  margin:0 auto;
+  align-items:start;
+}
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr;}
+}
+
+/* ---- sidebar ---- */
+.sidebar{
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+  padding:28px 18px 28px 28px;
+  border-right:1px solid var(--line);
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+@media (max-width:900px){
+  .sidebar{position:static; height:auto; border-right:none; border-bottom:1px solid var(--line); padding:20px 20px 16px;}
+}
+.nav-toggle{
+  display:none; width:100%; align-items:center; justify-content:space-between; gap:8px;
+  font-family:var(--font-mono); font-size:12.5px; letter-spacing:.04em; text-transform:uppercase;
+  color:var(--ink); background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-s);
+  padding:10px 14px; cursor:pointer;
+}
+.nav-toggle-chevron{color:var(--ink-faint); transition:transform .2s ease; font-size:14px;}
+.nav-toggle.open .nav-toggle-chevron{transform:rotate(180deg);}
+@media (max-width:900px){
+  .nav-toggle{display:flex;}
+  nav.toc{max-height:0; overflow:hidden; transition:max-height .28s ease;}
+  nav.toc.open{max-height:640px; overflow-y:auto;}
+}
+.brand{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.brand .kicker{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--accent-ink);
+  font-weight:600;
+}
+.brand h1{
+  font-size:21px;
+  line-height:1.2;
+}
+.progress-block{
+  display:flex; flex-direction:column; gap:6px;
+}
+.progress-label{
+  display:flex; justify-content:space-between; align-items:baseline;
+  font-size:12px; color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;
+}
+.progress-bar{
+  height:6px; border-radius:99px; background:var(--surface-2); overflow:hidden;
+  border:1px solid var(--line);
+}
+.progress-fill{
+  height:100%; width:0%; background:linear-gradient(90deg, var(--accent-2), var(--accent));
+  transition:width .35s ease;
+  border-radius:99px;
+}
+nav.toc{display:flex; flex-direction:column; gap:2px; font-size:14px;}
+nav.toc .toc-group-label{
+  font-family:var(--font-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-faint); margin:14px 0 4px; padding-left:10px;
+}
+nav.toc .toc-group-label:first-child{margin-top:0;}
+nav.toc a{
+  text-decoration:none; color:var(--ink-soft);
+  padding:6px 10px; border-radius:var(--radius-s);
+  display:flex; align-items:center; gap:8px;
+  border-left:2px solid transparent;
+}
+nav.toc a:hover{background:var(--surface-2); color:var(--ink);}
+nav.toc a.active{background:var(--accent-soft); color:var(--accent-ink); border-left-color:var(--accent); font-weight:600;}
+nav.toc a .n{font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); min-width:1.4em;}
+nav.toc a.active .n{color:var(--accent-ink);}
+nav.toc a .check{
+  margin-left:auto; width:14px; height:14px; border-radius:4px; border:1.5px solid var(--line-strong);
+  flex:none; position:relative;
+}
+nav.toc a .check.done{background:var(--accent-2); border-color:var(--accent-2);}
+nav.toc a .check.done::after{content:"✓"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--surface); font-family:var(--font-body);}
+
+/* ---- main ---- */
+.main{min-width:0; padding:0 28px 120px 40px;}
+@media (max-width:900px){.main{padding:0 20px 100px;}}
+
+header.hero{
+  padding:44px 0 30px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:40px;
+  display:flex; flex-direction:column; gap:14px;
+}
+header.hero .kicker{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-ink); font-weight:600;
+}
+header.hero h1{font-size:clamp(28px,4vw,40px); max-width:16ch;}
+header.hero .sub{color:var(--ink-soft); max-width:62ch; font-size:16px;}
+header.hero .meta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:6px;}
+.pill{
+  font-family:var(--font-mono); font-size:11.5px; letter-spacing:.02em;
+  padding:4px 10px; border-radius:99px; border:1px solid var(--line);
+  color:var(--ink-soft); background:var(--surface);
+}
+
+section.module{max-width:720px; margin-bottom:64px; scroll-margin-top:24px;}
+section.module.wide{max-width:820px;}
+.module-eyebrow{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.12em; color:var(--accent-ink);
+  text-transform:uppercase; font-weight:700; margin-bottom:8px; display:block;
+}
+section.module h2{font-size:28px; margin-bottom:6px;}
+section.module .module-lead{color:var(--ink-soft); font-size:16px; margin-bottom:26px; max-width:64ch;}
+section.module h3{font-size:18px; margin:34px 0 12px; color:var(--ink); font-family:var(--font-body); font-weight:700;}
+section.module h3:first-of-type{margin-top:0;}
+section.module h4{font-size:14.5px; margin:18px 0 8px; color:var(--ink);}
+
+.block{margin-bottom:22px;}
+
+/* ---- callouts ---- */
+.callout{
+  border:1px solid var(--line); border-left:3px solid var(--accent);
+  background:var(--surface); border-radius:var(--radius-m);
+  padding:14px 16px; margin:18px 0; font-size:14.5px; color:var(--ink-soft);
+}
+.callout strong{color:var(--ink);}
+.callout .callout-label{
+  font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.1em;
+  color:var(--accent-ink); font-weight:700; display:block; margin-bottom:6px;
+}
+.callout.teal{border-left-color:var(--accent-2);}
+.callout.teal .callout-label{color:var(--accent-2-ink);}
+.callout.example{background:var(--surface-2); border-left-style:dashed; font-style:italic;}
+
+/* ---- key terms ---- */
+.keyterms{display:flex; flex-direction:column; gap:0; border:1px solid var(--line); border-radius:var(--radius-m); overflow:hidden; background:var(--surface);}
+.keyterm{display:grid; grid-template-columns:min(200px,38%) 1fr; gap:16px; padding:13px 16px; border-bottom:1px solid var(--line);}
+.keyterm:last-child{border-bottom:none;}
+.keyterm dt{font-weight:700; color:var(--ink); font-size:14.5px;}
+.keyterm dd{margin:0; color:var(--ink-soft); font-size:14.5px;}
+@media (max-width:600px){.keyterm{grid-template-columns:1fr; gap:3px;}}
+
+/* ---- flow diagrams ---- */
+.flow{display:flex; flex-wrap:wrap; align-items:center; gap:8px 4px; margin:20px 0; padding:18px; background:var(--surface-2); border-radius:var(--radius-l); border:1px solid var(--line);}
+.flow-step{
+  font-family:var(--font-mono); font-size:12.5px; font-weight:600; letter-spacing:.01em;
+  padding:8px 13px; background:var(--surface); border:1px solid var(--line-strong); border-radius:99px;
+  color:var(--ink); box-shadow:var(--shadow); max-width:100%;
+}
+.flow-arrow{color:var(--ink-faint); font-size:14px; padding:0 2px;}
+.flow-loop{
+  font-family:var(--font-mono); font-size:11px; color:var(--accent-2-ink);
+  border:1px dashed var(--accent-2); border-radius:99px; padding:6px 11px; background:var(--accent-2-soft); max-width:100%;
+}
+.flow.compact .flow-step{font-size:11.5px; padding:6px 10px;}
+
+/* ---- actor / type cards grid ---- */
+.card-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(210px,100%),1fr)); gap:12px; margin:18px 0;}
+.info-card{
+  border:1px solid var(--line); border-radius:var(--radius-m); padding:14px 16px; background:var(--surface);
+}
+.info-card h4{margin:0 0 6px; font-size:14.5px; color:var(--ink);}
+.info-card p{font-size:13.5px; color:var(--ink-soft); margin:0;}
+.info-card .tag{
+  font-family:var(--font-mono); font-size:10px; text-transform:uppercase; letter-spacing:.08em;
+  color:var(--accent-ink); background:var(--accent-soft); padding:2px 8px; border-radius:99px; display:inline-block; margin-bottom:8px;
+}
+
+/* ---- checklist ---- */
+.checklist{list-style:none; padding:0; display:flex; flex-direction:column; gap:9px; margin:16px 0;}
+.checklist li{
+  display:grid; grid-template-columns:18px 1fr; gap:10px; align-items:baseline; font-size:14.5px; color:var(--ink-soft); margin:0;
+}
+.checklist li::before{
+  content:""; width:14px; height:14px; border-radius:4px; border:1.5px solid var(--accent-2); margin-top:3px;
+  background:var(--accent-2-soft);
+}
+.checklist li strong{color:var(--ink);}
+
+/* ---- table ---- */
+.table-wrap{overflow-x:auto; margin:18px 0; border:1px solid var(--line); border-radius:var(--radius-m); box-shadow:var(--shadow);}
+table{border-collapse:collapse; width:100%; min-width:520px; background:var(--surface); font-size:14px;}
+th{
+  text-align:left; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ink-soft); background:var(--surface-2); padding:11px 14px; border-bottom:1px solid var(--line);
+}
+td{padding:12px 14px; border-bottom:1px solid var(--line); color:var(--ink-soft); vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+td strong{color:var(--ink);}
+.type-badge{
+  font-family:var(--font-mono); font-size:11px; font-weight:700; padding:3px 9px; border-radius:99px; color:#fff; display:inline-block;
+}
+.type-badge.strategic{background:var(--type-strategic);}
+.type-badge.operational{background:var(--type-operational);}
+.type-badge.tactical{background:var(--type-tactical);}
+.type-badge.technical{background:var(--type-technical);}
+
+/* ---- maturity ladder ---- */
+.maturity{display:flex; align-items:flex-end; gap:14px; margin:22px 0 8px; padding:20px 18px 0; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-l); min-height:180px;}
+.maturity .step{display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;}
+.maturity .bar{width:100%; border-radius:6px 6px 0 0; background:linear-gradient(180deg, var(--accent), var(--accent-2)); opacity:.55; position:relative;}
+.maturity .step:nth-child(1) .bar{height:38px; opacity:.4;}
+.maturity .step:nth-child(2) .bar{height:64px; opacity:.55;}
+.maturity .step:nth-child(3) .bar{height:92px; opacity:.7;}
+.maturity .step:nth-child(4) .bar{height:122px; opacity:.85;}
+.maturity .step:nth-child(5) .bar{height:154px; opacity:1;}
+.maturity .num{font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--ink);}
+.maturity .label{font-size:12px; font-weight:700; color:var(--ink); text-align:center;}
+.maturity .desc{font-size:11.5px; color:var(--ink-soft); text-align:center; padding-bottom:12px; max-width:14ch;}
+
+/* ---- pyramid of pain ---- */
+.pyramid-wrap{display:flex; justify-content:center; margin:26px 0;}
+.pyramid{display:flex; flex-direction:column-reverse; align-items:center; width:100%; max-width:520px;}
+.pyramid .tier{
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; min-height:52px; margin-top:2px;
+  color:#fff; font-weight:700; font-size:13.5px; text-align:center; padding:8px 10px;
+}
+.pyramid .tier small{display:block; font-weight:500; font-size:10.5px; opacity:.85; font-family:var(--font-mono); text-transform:none; letter-spacing:0;}
+@media (max-width:480px){
+  .pyramid .tier{font-size:11.5px;}
+  .pyramid .tier small{font-size:9px;}
+}
+.pyramid .tier:nth-child(1){width:34%; background:var(--type-strategic); border-radius:0 0 8px 8px;}
+.pyramid .tier:nth-child(2){width:46%; background:#5a6fe0;}
+.pyramid .tier:nth-child(3){width:58%; background:var(--accent-2);}
+.pyramid .tier:nth-child(4){width:70%; background:#2c9686;}
+.pyramid .tier:nth-child(5){width:84%; background:var(--accent);}
+.pyramid .tier:nth-child(6){width:100%; background:var(--accent-ink); border-radius:8px 8px 0 0;}
+.pyramid-caption{text-align:center; font-size:12px; color:var(--ink-faint); margin-top:10px; font-family:var(--font-mono);}
+
+/* ---- two column compare ---- */
+.duo{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:18px 0;}
+@media (max-width:560px){.duo{grid-template-columns:1fr;}}
+.duo-card{border:1px solid var(--line); border-radius:var(--radius-m); padding:16px; background:var(--surface);}
+.duo-card.a{border-top:3px solid var(--accent);}
+.duo-card.b{border-top:3px solid var(--accent-2);}
+.duo-card h4{margin-bottom:6px; font-size:15px;}
+.duo-card p{font-size:13.5px; color:var(--ink-soft); margin:0;}
+
+/* ---- numbered timeline (for process walkthroughs) ---- */
+.timeline{list-style:none; padding:0; margin:18px 0; position:relative;}
+.timeline li{
+  position:relative; padding:2px 0 18px 34px; font-size:14.5px; color:var(--ink-soft); margin:0;
+}
+.timeline li::before{
+  content:attr(data-n); position:absolute; left:0; top:0; width:24px; height:24px; border-radius:50%;
+  background:var(--surface); border:1.5px solid var(--accent); color:var(--accent-ink); font-family:var(--font-mono);
+  font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center;
+}
+.timeline li::after{
+  content:""; position:absolute; left:11.5px; top:26px; bottom:-2px; width:1px; background:var(--line-strong);
+}
+.timeline li:last-child::after{display:none;}
+.timeline li strong{color:var(--ink);}
+
+/* ---- chip cloud (tools, methods) ---- */
+.chipcloud{display:flex; flex-wrap:wrap; gap:8px; margin:16px 0;}
+.chip{
+  font-family:var(--font-mono); font-size:12.5px; padding:6px 12px; border-radius:99px;
+  background:var(--surface); border:1px solid var(--line); color:var(--ink-soft);
+}
+
+/* ===================== COMPARISON SECTION ===================== */
+.compare-grid{display:flex; flex-direction:column; gap:10px; margin-top:20px;}
+.compare-row{
+  border:1px solid var(--line); border-radius:var(--radius-m); background:var(--surface); padding:16px 18px;
+  display:grid; grid-template-columns:1fr auto 1fr; gap:14px; align-items:center;
+}
+@media (max-width:640px){.compare-row{grid-template-columns:1fr;}}
+.compare-row .side{font-size:14px; color:var(--ink-soft);}
+.compare-row .side strong{display:block; color:var(--ink); font-size:14.5px; margin-bottom:3px;}
+.compare-row .vs{
+  font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.1em;
+  justify-self:center;
+}
+
+/* ===================== QUIZ ===================== */
+.quiz-list{display:flex; flex-direction:column; gap:10px; margin-top:20px;}
+.quiz-item{border:1px solid var(--line); border-radius:var(--radius-m); background:var(--surface); overflow:hidden;}
+.quiz-q{
+  width:100%; text-align:left; padding:15px 18px; background:none; border:none; cursor:pointer;
+  font-family:var(--font-body); font-size:15px; color:var(--ink); font-weight:600;
+  display:flex; gap:12px; align-items:flex-start; justify-content:space-between;
+}
+.quiz-q .qn{font-family:var(--font-mono); color:var(--accent-ink); font-weight:700; flex:none;}
+.quiz-q .qtxt{flex:1;}
+.quiz-q .chevron{flex:none; color:var(--ink-faint); transition:transform .2s ease; margin-top:2px;}
+.quiz-item.open .chevron{transform:rotate(90deg);}
+.quiz-a{max-height:0; overflow:hidden; transition:max-height .28s ease;}
+.quiz-item.open .quiz-a{max-height:400px;}
+.quiz-a-inner{padding:0 18px 17px 46px; font-size:14.5px; color:var(--ink-soft);}
+.quiz-a-inner strong{color:var(--ink);}
+
+/* ===================== FLASHCARDS ===================== */
+.fc-controls{display:flex; gap:10px; align-items:center; margin:20px 0; flex-wrap:wrap;}
+.btn{
+  font-family:var(--font-mono); font-size:12.5px; letter-spacing:.02em; padding:9px 16px; border-radius:99px;
+  border:1px solid var(--line-strong); background:var(--surface); color:var(--ink); cursor:pointer;
+}
+.btn:hover{background:var(--surface-2);}
+.btn.primary{background:var(--accent); border-color:var(--accent); color:#fff;}
+.btn.primary:hover{filter:brightness(1.06);}
+.fc-counter{font-family:var(--font-mono); font-size:12.5px; color:var(--ink-faint);}
+.fc-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr)); gap:14px;}
+.fc{
+  perspective:1000px; height:150px; cursor:pointer;
+}
+.fc-inner{position:relative; width:100%; height:100%; transition:transform .5s cubic-bezier(.4,.2,.2,1); transform-style:preserve-3d;}
+.fc.flipped .fc-inner{transform:rotateY(180deg);}
+.fc-face{
+  position:absolute; inset:0; backface-visibility:hidden; border-radius:var(--radius-m);
+  border:1px solid var(--line); padding:16px; display:flex; flex-direction:column; box-shadow:var(--shadow);
+}
+.fc-face.front{background:var(--surface); justify-content:space-between;}
+.fc-face.back{background:var(--accent-soft); transform:rotateY(180deg); justify-content:center; border-color:var(--accent);}
+.fc-tag{font-family:var(--font-mono); font-size:9.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-faint);}
+.fc-term{font-family:var(--font-display); font-size:17px; color:var(--ink); font-weight:700; text-wrap:balance;}
+.fc-hint{font-size:11px; color:var(--ink-faint); font-family:var(--font-mono);}
+.fc-def{font-size:13.5px; color:var(--accent-ink); line-height:1.45;}
+
+/* ===================== CHEAT SHEET ===================== */
+.cheat-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr)); gap:14px; margin-top:20px;}
+.cheat-card{border:1px solid var(--line); border-radius:var(--radius-m); background:var(--surface); padding:16px 18px;}
+.cheat-card h4{font-family:var(--font-mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--accent-ink); margin-bottom:10px;}
+.cheat-card .flow{margin:0; padding:12px; background:var(--surface-2);}
+.cheat-traits{display:flex; flex-wrap:wrap; gap:6px;}
+.cheat-traits span{font-size:12px; background:var(--accent-2-soft); color:var(--accent-2-ink); padding:4px 10px; border-radius:99px; font-family:var(--font-mono);}
+
+footer.page-footer{
+  max-width:720px; padding-top:30px; margin-top:20px; border-top:1px solid var(--line);
+  color:var(--ink-faint); font-size:12.5px; font-family:var(--font-mono);
+}
+
+/* back to top */
+.top-btn{
+  position:fixed; right:22px; bottom:22px; width:42px; height:42px; border-radius:50%;
+  background:var(--surface); border:1px solid var(--line-strong); color:var(--ink-soft); cursor:pointer;
+  box-shadow:var(--shadow); display:flex; align-items:center; justify-content:center; font-size:16px;
+  opacity:0; pointer-events:none; transition:opacity .2s ease;
+}
+.top-btn.show{opacity:1; pointer-events:auto;}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="kicker">TIEv1 · príprava na písomku</span>
+      <h1>Dosje: Threat Intelligence</h1>
+    </div>
+    <div class="progress-block">
+      <div class="progress-label"><span>Preštudované moduly</span><span id="progress-count">0 / 10</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="toc">
+      <span>Obsah kurzu</span><span class="nav-toggle-chevron">⌄</span>
+    </button>
+    <nav class="toc" id="toc">
+      <a href="#intro"><span class="n">·</span>Mapa kurzu</a>
+      <span class="toc-group-label">Moduly</span>
+      <a href="#m1" data-mod="1"><span class="n">01</span>Základy a životný cyklus<span class="check" id="check-1"></span></a>
+      <a href="#m2" data-mod="2"><span class="n">02</span>Typy TI<span class="check" id="check-2"></span></a>
+      <a href="#m3" data-mod="3"><span class="n">03</span>Threat landscape<span class="check" id="check-3"></span></a>
+      <a href="#m4" data-mod="4"><span class="n">04</span>Zber a spracovanie<span class="check" id="check-4"></span></a>
+      <a href="#m5" data-mod="5"><span class="n">05</span>TIP platformy<span class="check" id="check-5"></span></a>
+      <a href="#m6" data-mod="6"><span class="n">06</span>Analýza<span class="check" id="check-6"></span></a>
+      <a href="#m7" data-mod="7"><span class="n">07</span>Threat hunting<span class="check" id="check-7"></span></a>
+      <a href="#m8" data-mod="8"><span class="n">08</span>Zdieľanie TI<span class="check" id="check-8"></span></a>
+      <a href="#m9" data-mod="9"><span class="n">09</span>TI v incident response<span class="check" id="check-9"></span></a>
+      <a href="#m10" data-mod="10"><span class="n">10</span>Budúcnosť a učenie<span class="check" id="check-10"></span></a>
+      <span class="toc-group-label">Precvičovanie</span>
+      <a href="#compare"><span class="n">·</span>Porovnania</a>
+      <a href="#quiz"><span class="n">·</span>Kontrolné otázky</a>
+      <a href="#flashcards"><span class="n">·</span>Kartičky pojmov</a>
+      <a href="#cheat"><span class="n">·</span>Mini ťahák</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <header class="hero" id="intro">
+      <span class="kicker">Študijné poznámky · 10 modulov</span>
+      <h1>Threat Intelligence Essentials</h1>
+      <p class="sub">Kompletný prehľad kurzu TIEv1 — od definície inteligencie o hrozbách cez zber a analýzu dát až po zdieľanie a nasadenie v incident response. Poznámky sa sústreďujú na význam pojmov, vzťahy medzi nimi a praktické použitie.</p>
+      <div class="meta-row">
+        <span class="pill">01 Základy TI</span><span class="pill">02 Typy TI</span><span class="pill">03 Landscape a APT</span>
+        <span class="pill">04 Zber dát</span><span class="pill">05 TIP</span><span class="pill">06 Analýza</span>
+        <span class="pill">07 Hunting</span><span class="pill">08 Zdieľanie</span><span class="pill">09 IR</span><span class="pill">10 Budúcnosť</span>
+      </div>
+    </header>
+
+    <!-- ============ MODUL 1 ============ -->
+    <section class="module" id="m1">
+      <span class="module-eyebrow">Modul 01</span>
+      <h2>Úvod do Threat Intelligence</h2>
+      <p class="module-lead">Čo je TI, prečo záleží na slove „actionable“ a ako vyzerá jej životný cyklus od otázky organizácie po spätnú väzbu.</p>
+
+      <h3>Čo je Threat Intelligence</h3>
+      <div class="block">
+        <p><strong>Threat intelligence (TI, spravodajstvo o hrozbách)</strong> je kontextový proces založený na dátach: zhromažďuje, analyzuje a interpretuje informácie o potenciálnych hrozbách tak, aby organizácia vedela uprednostniť riziká a konať.</p>
+        <p>Najdôležitejšie slovo je <strong>actionable</strong> — použiteľná na rozhodnutie alebo akciu. Samotný zoznam škodlivých IP adries ešte nemusí byť inteligencia.</p>
+      </div>
+
+      <h4>Dáta → informácia → inteligencia</h4>
+      <div class="flow">
+        <span class="flow-step">DÁTA — surový fakt bez kontextu (IP, hash)</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">INFORMÁCIA — dáta usporiadané tak, že niečo opisujú</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">INTELIGENCIA — analyzované, relevantné, vedie k akcii</span>
+      </div>
+      <div class="callout example">Príklad: IP komunikuje s naším serverom a patrí aktérovi útočiacemu na naše odvetvie → spojenie zablokujeme a preveríme hostiteľa.</div>
+
+      <h3>Kľúčové pojmy</h3>
+      <dl class="keyterms">
+        <div class="keyterm"><dt>Threat actor</dt><dd>Jednotlivec alebo skupina schopná spôsobiť škodu; môže ísť aj o neúmyselného insidera.</dd></div>
+        <div class="keyterm"><dt>TTP</dt><dd>Tactics, Techniques and Procedures — ciele, metódy, správanie a konkrétne postupy aktéra.</dd></div>
+        <div class="keyterm"><dt>IoC</dt><dd>Indicator of Compromise — stopa možnej kompromitácie: IP, doména, URL, hash, súbor, neobvyklý záznam v registri.</dd></div>
+        <div class="keyterm"><dt>APT</dt><dd>Advanced Persistent Threat — dobre financovaný, sofistikovaný a vytrvalý aktér, ktorý sa snaží dlhodobo zostať neodhalený.</dd></div>
+        <div class="keyterm"><dt>Dark web</dt><dd>Časť internetu prístupná špeciálnymi nástrojmi; aktéri ju používajú na komunikáciu, predaj dát a plánovanie.</dd></div>
+        <div class="keyterm"><dt>Threat landscape</dt><dd>Meniaci sa súbor hrozieb, rizík a technológií relevantných pre organizáciu alebo odvetvie.</dd></div>
+      </dl>
+
+      <h3>Prečo je TI dôležitá</h3>
+      <ul>
+        <li>umožňuje proaktívne opravovať zraniteľnosti a zmenšovať attack surface,</li>
+        <li>zrýchľuje detekciu, containment a obnovu pri incidente,</li>
+        <li>zlepšuje rozhodovanie, rozpočet a plánovanie bezpečnosti,</li>
+        <li>pomáha prioritizovať riziká podľa reálnej hrozby,</li>
+        <li>zdieľaním vytvára včasné varovanie aj pre iné organizácie.</li>
+      </ul>
+      <p>Tradičná bezpečnosť a TI sa dopĺňajú. Tradičné kontroly predovšetkým chránia systémy; TI dodáva širší a dopredu orientovaný kontext, podľa ktorého sa kontroly upravujú.</p>
+
+      <h3>Životný cyklus TI</h3>
+      <div class="flow">
+        <span class="flow-step">1 · Plánovanie</span><span class="flow-arrow">→</span>
+        <span class="flow-step">2 · Zber</span><span class="flow-arrow">→</span>
+        <span class="flow-step">3 · Spracovanie</span><span class="flow-arrow">→</span>
+        <span class="flow-step">4 · Analýza</span><span class="flow-arrow">→</span>
+        <span class="flow-step">5 · Diseminácia</span><span class="flow-arrow">→</span>
+        <span class="flow-step">6 · Spätná väzba</span>
+        <span class="flow-loop">↺ späť na plánovanie</span>
+      </div>
+      <div class="callout">Cyklus nezačína feedom, ale <strong>otázkou organizácie</strong>. Bez nej sa tím ľahko utopí v dátach.</div>
+
+      <h4>Intelligence requirements a kvalita výstupu</h4>
+      <p>Požiadavka má pomenovať rozhodnutie, publikum, časový horizont a hranice zberu.</p>
+      <div class="callout example">„Ktoré ransomware skupiny pravdepodobne zaútočia na naše zdravotnícke pracoviská v najbližšom štvrťroku a aké kontroly máme posilniť?“ — je lepšia než neurčité „zistite niečo o ransomware“.</div>
+      <p>Pri každom závere uveď:</p>
+      <ul>
+        <li><strong>zdroj a čas</strong> získania informácie,</li>
+        <li><strong>relevanciu</strong> pre aktíva, región a odvetvie,</li>
+        <li><strong>confidence</strong> (nízka/stredná/vysoká) a čo ju ovplyvňuje,</li>
+        <li><strong>pravdepodobnosť</strong> udalosti — nie je to to isté ako confidence analytika,</li>
+        <li>predpoklady, informačné medzery a alternatívne vysvetlenia,</li>
+        <li>odporúčanú akciu, prioritu, vlastníka a čas na vykonanie.</li>
+      </ul>
+      <p>Inteligencia môže byť presná, ale doručená neskoro; aktuálna, ale nerelevantná; relevantná, ale bez odporúčania. Vo všetkých troch prípadoch má nízku operačnú hodnotu.</p>
+
+      <h3>Model zrelosti</h3>
+      <div class="maturity">
+        <div class="step"><div class="desc">reaktívne, bez formálnych procesov</div><div class="bar"></div><div class="num">1</div><div class="label">Initial</div></div>
+        <div class="step"><div class="desc">štandardné postupy, jednoduchá interná analýza</div><div class="bar"></div><div class="num">2</div><div class="label">Foundational</div></div>
+        <div class="step"><div class="desc">formálne politiky, integrácia, znalosť TTP</div><div class="bar"></div><div class="num">3</div><div class="label">Defined</div></div>
+        <div class="step"><div class="desc">špecializovaný tím, prijíma aj zdieľa</div><div class="bar"></div><div class="num">4</div><div class="label">Managed</div></div>
+        <div class="step"><div class="desc">automatizácia/ML, predikcia, prínos komunite</div><div class="bar"></div><div class="num">5</div><div class="label">Optimized</div></div>
+      </div>
+
+      <h3>Roly a použitia</h3>
+      <div class="card-grid">
+        <div class="info-card"><span class="tag">Rola</span><h4>TI analytik</h4><p>Zbiera a analyzuje dáta, tvorí profily a actionable výstupy.</p></div>
+        <div class="info-card"><span class="tag">Rola</span><h4>Threat researcher</h4><p>Skúma nové kampane, aktérov, malware a zraniteľnosti.</p></div>
+        <div class="info-card"><span class="tag">Rola</span><h4>Threat hunter</h4><p>Aktívne hľadá skryté hrozby, ktoré obišli existujúce kontroly.</p></div>
+      </div>
+      <p>Použitia: obrana pred phishingom a ransomware, ochrana dodávateľského reťazca, detekcia finančných podvodov a sledovanie zero-day zraniteľností.</p>
+
+      <h3>Frameworky, štandardy a meranie</h3>
+      <dl class="keyterms">
+        <div class="keyterm"><dt>MITRE ATT&amp;CK</dt><dd>Vedomostná báza taktík a techník zo skutočných útokov.</dd></div>
+        <div class="keyterm"><dt>Cyber Kill Chain</dt><dd>Lineárne fázy útoku; dobrá na pochopenie, kde útok prerušiť.</dd></div>
+        <div class="keyterm"><dt>STIX</dt><dd>Štruktúrovaný formát reprezentácie TI.</dd></div>
+        <div class="keyterm"><dt>TAXII</dt><dd>Protokol na automatizovanú výmenu TI (často prenáša STIX).</dd></div>
+        <div class="keyterm"><dt>ODNI Cyber Threat Framework</dt><dd>Spoločná terminológia na opis aktérov a aktivít.</dd></div>
+      </dl>
+      <p><strong>KPI:</strong> podiel odhalených/zmiernených hrozieb, mean time to decision, false-positive rate, využitie inteligencie, úspešnosť huntov, nové IoC/TTP/detekcie, incidenty spustené inteligenciou a zraniteľnosti opravené vďaka TI.</p>
+    </section>
+
+    <!-- ============ MODUL 2 ============ -->
+    <section class="module" id="m2">
+      <span class="module-eyebrow">Modul 02</span>
+      <h2>Typy Threat Intelligence</h2>
+      <p class="module-lead">Štyri úrovne TI sa líšia publikom a mierou technického detailu — nie striktne dĺžkou horizontu.</p>
+
+      <h3>Štyri základné typy</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Typ</th><th>Horizont a publikum</th><th>Obsah</th><th>Príklad použitia</th></tr></thead>
+          <tbody>
+            <tr><td><span class="type-badge strategic">Strategická</span></td><td>dlhodobý; vedenie</td><td>minimum technických detailov, biznis a geopolitické riziká</td><td>rozhodovanie o akvizícii alebo vstupe na trh</td></tr>
+            <tr><td><span class="type-badge operational">Operatívna</span></td><td>krátky až stredný; bezpečnostné tímy</td><td>konkrétni aktéri, kampane, ciele a úmysly</td><td>sledovanie kampane a tvorba profilu aktéra</td></tr>
+            <tr><td><span class="type-badge tactical">Taktická</span></td><td>krátkodobý; SOC/obrana</td><td>TTP a okamžité úpravy kontrol</td><td>zmena firewallu alebo detekčných pravidiel</td></tr>
+            <tr><td><span class="type-badge technical">Technická</span></td><td>technickí špecialisti</td><td>malware, exploity, IP, domény, hash hodnoty</td><td>malware analýza a výskum zraniteľnosti</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">Slidy používajú pri časových horizontoch miestami nejednotné označenia. Na skúške je podstatnejšie <strong>publikum, miera technického detailu a rozhodnutie</strong>, ktoré výstup podporuje.</div>
+
+      <h3>Zdroje a tvorba TI</h3>
+      <p>Všeobecné OSINT zdroje: bezpečnostné médiá, vládne weby, výskumníci a služby ako urlscan.io, ANY.RUN či OPSWAT. Veľkí producenti (napr. Mandiant, CrowdStrike, Unit 42, Cisco Talos) spájajú globálnu telemetriu, incidenty, automatizáciu a ľudský výskum.</p>
+      <div class="flow compact">
+        <span class="flow-step">široký zber</span><span class="flow-arrow">→</span>
+        <span class="flow-step">agregácia</span><span class="flow-arrow">→</span>
+        <span class="flow-step">analýza</span><span class="flow-arrow">→</span>
+        <span class="flow-step">vytvorenie TI</span><span class="flow-arrow">→</span>
+        <span class="flow-step">distribúcia</span><span class="flow-arrow">→</span>
+        <span class="flow-step">spätná väzba a iterácia</span>
+      </div>
+
+      <h3>Regulácia, vulnerability a risk management</h3>
+      <ul>
+        <li>GDPR a podobné pravidlá obmedzujú zber, uchovávanie a zdieľanie osobných dát,</li>
+        <li>breach-reporting pravidlá určujú, čo a dokedy treba oznámiť,</li>
+        <li>organizácia musí preukázať due care, data governance, zákonný účel a primeranú retenciu,</li>
+        <li>TI dopĺňa CVSS o realitu: je zraniteľnosť zneužívaná, existuje exploit, používa zasiahnutý produkt naša organizácia a cieli aktér na naše odvetvie?</li>
+        <li>v risk managemente umožňuje presnejšie vyhodnotiť dodávateľské riziko, priority patchovania, monitorovanie a poistné krytie.</li>
+      </ul>
+      <div class="duo">
+        <div class="duo-card a"><h4>Geopolitická TI</h4><p>Skúma vplyv politiky, ekonomiky a regiónov, najmä nation-state aktérov.</p></div>
+        <div class="duo-card b"><h4>Odvetvová TI</h4><p>Sústreďuje sa na špecifiká sektora, napr. kritickú infraštruktúru alebo zdravotné údaje.</p></div>
+      </div>
+
+      <h3>Ako zvoliť správny typ výstupu</h3>
+      <ul>
+        <li>Vedenie potrebuje krátky scenár, pravdepodobnosť, finančný/prevádzkový dopad a možnosti rozhodnutia.</li>
+        <li>Risk alebo compliance tím potrebuje väzbu na riziká, reguláciu, vlastníkov a termíny nápravy.</li>
+        <li>SOC potrebuje aktuálne IoC/TTP, detekčný postup, confidence, kritickosť a eskalačné pravidlo.</li>
+        <li>Malware analytik potrebuje technické artefakty, behaviorálne pozorovania, vzorku a reprodukovateľný postup.</li>
+      </ul>
+      <div class="callout">Rovnaké zistenie treba diseminovať vo viacerých podobách. Preklad technického rizika do biznis dopadu je základnou úlohou analytika, nie „zjednodušovaním“ inteligencie.</div>
+    </section>
+
+    <!-- ============ MODUL 3 ============ -->
+    <section class="module" id="m3">
+      <span class="module-eyebrow">Modul 03</span>
+      <h2>Cyber Threat Landscape</h2>
+      <p class="module-lead">Kto útočí, prečo, akými fázami postupuje APT a čo z toho robí stopu, ktorú vieme korelovať.</p>
+
+      <h3>Aktéri a motivácie</h3>
+      <div class="card-grid">
+        <div class="info-card"><h4>Nation-state</h4><p>Geopolitická alebo ekonomická výhoda, špionáž a narušenie.</p></div>
+        <div class="info-card"><h4>Kyberzločinci</h4><p>Finančný zisk.</p></div>
+        <div class="info-card"><h4>Hacktivisti</h4><p>Politická alebo spoločenská zmena a publicita.</p></div>
+        <div class="info-card"><h4>Insideri</h4><p>Zisk, pomsta, zverejnenie dát alebo neúmyselná chyba.</p></div>
+        <div class="info-card"><h4>Script kiddies</h4><p>Zvedavosť, zábava alebo sociálne uznanie.</p></div>
+      </div>
+      <p>Aktuálne smery: AI malware a phishing, quishing cez QR kódy, TOAD/vishing, deepfakes, útoky na IoT a budúce riziko kvantového prelomenia dnešnej kryptografie.</p>
+
+      <h3>APT</h3>
+      <p>APT vykonáva dlhý prieskum, cielene získava foothold, pohybuje sa laterálne, udržiava persistence, exfiltruje alebo ničí dáta a maskuje stopy. Používa phishing, zero-day, supply-chain kompromitáciu, credential theft a <strong>living off the land</strong> (zneužitie legitímnych nástrojov systému).</p>
+      <p>Obrana: threat hunting, behaviorálna analytika, kvalitný incident response, penetračné testy a robustné, otestované zálohy.</p>
+
+      <h3>Cyber Kill Chain</h3>
+      <div class="flow">
+        <span class="flow-step">1 Reconnaissance</span><span class="flow-arrow">→</span>
+        <span class="flow-step">2 Weaponization</span><span class="flow-arrow">→</span>
+        <span class="flow-step">3 Delivery</span><span class="flow-arrow">→</span>
+        <span class="flow-step">4 Exploitation</span><span class="flow-arrow">→</span>
+        <span class="flow-step">5 Installation</span><span class="flow-arrow">→</span>
+        <span class="flow-step">6 Command &amp; Control</span><span class="flow-arrow">→</span>
+        <span class="flow-step">7 Actions on Objectives</span>
+      </div>
+      <p style="font-size:14.5px; color:var(--ink-soft);">Cloudová varianta často začína chybnou konfiguráciou, verejným úložiskom alebo ukradnutým access key. Mobilná varianta využíva smishing, SIM swap, škodlivú aplikáciu či kompromitovaný MDM.</p>
+
+      <h3>IoC a vulnerability management</h3>
+      <p>IoC sú digitálne stopy po aktivite aktéra. Majú sa korelovať s kontextom, nie slepo blokovať. Vulnerability management potrebuje úplný inventár, logické skupiny aktív, pravidelné a autentizované skeny, úplný rozsah sietí a prioritizáciu podľa reálneho zneužívania.</p>
+      <p>Emerging tech rozširuje attack surface: blockchain a smart kontrakty, 5G a DDoS, edge bez dostatočnej telemetrie, robotika s fyzickým dopadom, AR/VR, biometria a automatizované APT.</p>
+
+      <h3>Príklady aktérov zo slidov</h3>
+      <div class="card-grid">
+        <div class="info-card"><span class="tag">Nation-state</span><h4>Fancy Bear</h4><p>Prieskum sietí, zneužívanie zariadení a persistence cez špecializovaný malware.</p></div>
+        <div class="info-card"><span class="tag">Kyberzločin</span><h4>Scattered Spider</h4><p>Sociálne inžinierstvo, SIM swapping/MFA manipulácia, legitímne RMM nástroje a ransomware partnerstvá.</p></div>
+        <div class="info-card"><span class="tag">Nation-state</span><h4>OilRig</h4><p>Phishing/BEC alebo supply-chain vektor, credential theft, lateral movement a DNS tunneling pre C2 či exfiltráciu.</p></div>
+      </div>
+      <div class="callout">Názvy a atribúcie skupín sa medzi vendormi líšia. Pri profile preto ukladaj <strong>aliases</strong> a oddeľuj potvrdené fakty od analytického odhadu.</div>
+    </section>
+
+    <!-- ============ MODUL 4 ============ -->
+    <section class="module" id="m4">
+      <span class="module-eyebrow">Modul 04</span>
+      <h2>Zber dát a zdroje TI</h2>
+      <p class="module-lead">Kvalita feedu, spôsob zberu a poctivá normalizácia rozhodujú, či z dát vôbec niečo použiteľné vznikne.</p>
+
+      <h3>Výber feedu</h3>
+      <ul>
+        <li>relevanciu a kvalitu pred množstvom,</li>
+        <li>reputáciu a transparentnosť zdroja,</li>
+        <li>frekvenciu aktualizácie (denne je minimum, real-time je vhodnejší),</li>
+        <li>veľkosť a rozmanitosť senzorickej siete,</li>
+        <li>vlastný výskum a partnerstvá poskytovateľa,</li>
+        <li>dostupnosť, latenciu, duplicity a mieru false positives.</li>
+      </ul>
+      <p>Príklady zdrojov: CIS/MS-ISAC, AlienVault OTX a VirusTotal.</p>
+
+      <h3>Spôsoby zberu</h3>
+      <div class="card-grid">
+        <div class="info-card"><h4>E-mail / RSS</h4><p>Jednoduché, ale skôr manuálne.</p></div>
+        <div class="info-card"><h4>API</h4><p>Automatické dotazy na domény, IP, URL či hash.</p></div>
+        <div class="info-card"><h4>TAXII</h4><p>Štandardizovaný obojsmerný push/pull medzi platformami.</p></div>
+        <div class="info-card"><h4>OSINT</h4><p>Verejné weby, sociálne siete, fóra, paste sites a registre.</p></div>
+        <div class="info-card"><h4>Bulk collection</h4><p>Scraping/crawling, API odbery, sieťové senzory, logy, cloud storage a databázové exporty.</p></div>
+      </div>
+
+      <h3>Aktívny vs. pasívny zber</h3>
+      <div class="duo">
+        <div class="duo-card a"><h4>Aktívny</h4><p>Honeypoty alebo priame zapojenie; bohatšie a rýchlejšie dáta, ale vyššie právne, technické a operačné riziko a možnosť odhalenia aktérom.</p></div>
+        <div class="duo-card b"><h4>Pasívny</h4><p>Pozorovanie verejných zdrojov a analýza vzoriek; nižšie riziko, ale menej detailov a často slabší kontext.</p></div>
+      </div>
+
+      <h3>Spracovanie dát</h3>
+      <div class="flow">
+        <span class="flow-step">1 Normalizácia</span><span class="flow-arrow">→</span>
+        <span class="flow-step">2 Deduplikácia a filtrácia</span><span class="flow-arrow">→</span>
+        <span class="flow-step">3 Enrichment</span><span class="flow-arrow">→</span>
+        <span class="flow-step">4 Korelácia</span><span class="flow-arrow">→</span>
+        <span class="flow-step">5 Extrakcia actionable intelligence</span>
+      </div>
+      <p>Riziká bulk zberu: náklady na storage/compute, slabá kvalita, bias, poškodené dáta, bezpečnosť úložiska a porušenie podmienok služby alebo súkromia. Rešpektuj suverenitu štátov, súhlas, rozdiel medzi verejnými a súkromnými dátami a konflikt záujmov.</p>
+
+      <h3>Bulk collection — detailný checklist</h3>
+      <ul class="checklist">
+        <li><strong>Úložisko a lokalita:</strong> právne pravidlá môžu určovať krajinu uloženia; osobné údaje anonymizuj a chráň RBAC.</li>
+        <li><strong>Sieť a výkon:</strong> odhadni bandwidth, rýchlosť ingestion, API rate limits, latenciu, kapacitu fronty a obdobie výpadku.</li>
+        <li><strong>Data hoarding:</strong> zbieraj iba to, čo odpovedá na požiadavku; nastav retenciu a automatické vymazanie.</li>
+        <li><strong>Provenance:</strong> zachovaj zdroj, čas, licenciu, TLP/sharing obmedzenia a históriu transformácií.</li>
+        <li><strong>Integrita:</strong> validuj schému, typy polí, timestamp a hash; poškodený vstup nemá potichu prejsť pipeline.</li>
+        <li><strong>Bezpečnosť:</strong> neotváraj vzorky na produkčnom zariadení, používaj sandbox a oddelené úložisko.</li>
+      </ul>
+
+      <h3>Normalizácia a enrichment — príklad</h3>
+      <p>Surový záznam <code>evil.example</code> sa normalizuje ako doménový objekt so štandardným časom. Enrichment pridá DNS/WHOIS, reputáciu, TLS certifikát, súvisiace IP, pasívny DNS, malware family, kampane a ATT&amp;CK techniky. Korelácia zistí komunikáciu interného hostiteľa s doménou.</p>
+      <div class="callout teal">Až záver „hostiteľ X môže byť kompromitovaný; izolovať a preveriť proces Y“ je actionable intelligence.</div>
+      <p>Enrichment je iteratívny: požiadavky → korelácia/obohatenie → ďalšia analýza → integrácia do SIEM/TIP → spätná väzba. Príliš agresívna normalizácia môže odstrániť kontext, preto uchovaj aj pôvodnú hodnotu.</p>
+    </section>
+
+    <!-- ============ MODUL 5 ============ -->
+    <section class="module" id="m5">
+      <span class="module-eyebrow">Modul 05</span>
+      <h2>Threat Intelligence Platforms (TIP)</h2>
+      <p class="module-lead">TIP je centrálny nervový systém TI programu — spája zber, obohacovanie, koreláciu a distribúciu s ostatnými bezpečnostnými nástrojmi.</p>
+
+      <h3>Úloha a funkcie TIP</h3>
+      <p>TIP centralizuje zber, ingestion feedov, normalizáciu, enrichment, koreláciu, prioritizáciu, vizualizáciu, reporting a zdieľanie TI. Integruje sa so SIEM, SOAR, EDR, firewally, vulnerability scannermi a ticketingom.</p>
+      <div class="flow compact">
+        <span class="flow-step">collection</span><span class="flow-arrow">→</span>
+        <span class="flow-step">filtering</span><span class="flow-arrow">→</span>
+        <span class="flow-step">enrichment</span><span class="flow-arrow">→</span>
+        <span class="flow-step">processing</span><span class="flow-arrow">→</span>
+        <span class="flow-step">prioritization</span><span class="flow-arrow">→</span>
+        <span class="flow-step">trends/prediction</span><span class="flow-arrow">→</span>
+        <span class="flow-step">report/vizualizácia</span><span class="flow-arrow">→</span>
+        <span class="flow-step">syndication</span><span class="flow-arrow">→</span>
+        <span class="flow-step">sharing/feedback</span>
+      </div>
+
+      <h3>Automation vs. orchestration</h3>
+      <div class="duo">
+        <div class="duo-card a"><h4>Automatizácia</h4><p>Jedna úloha sa vykoná bez človeka, napr. obohatenie IP alebo blokovanie potvrdenej domény.</p></div>
+        <div class="duo-card b"><h4>Orchestrácia</h4><p>Koordinuje viac automatizovaných krokov a systémov v správnom poradí podľa playbooku.</p></div>
+      </div>
+      <p>Výsledkom má byť jednotný kontext incidentov, lepší situational awareness a rýchla náprava. Citlivé alebo deštruktívne rozhodnutia si majú ponechať human oversight.</p>
+
+      <h3>Výber a bezpečné nasadenie TIP</h3>
+      <p>Hodnoť total cost of ownership, výkon a presnosť, podporu vendora, jednoduchú integráciu, customizáciu, škálovanie, cloud/on-prem kompatibilitu a kvalitu školenia. Proof of value testuj na reálnych scenároch a získaj spätnú väzbu viacerých tímov.</p>
+      <p>TIP má privilegovaný prístup, preto potrebuje RBAC, segmentáciu, audit, penetračné testy, change management a pravidelné integračné/health testy.</p>
+      <div class="callout">Riziká: echo chamber, chybná analýza, nedôvera, nesprávne priority, alert fatigue a automatická reakcia na false positive. Pomáha rozmanitosť zdrojov, quality control, tuning, spätná väzba a reverzibilné zmeny.</div>
+      <p>TIP podporuje hunting cez pokročilé vyhľadávanie, behaviorálnu analýzu, watchlisty, actor profiling a retrospektívnu analýzu. Reporting prispôsob publiku: čo sa deje, prečo je to relevantné, dopad a odporúčaná akcia.</p>
+
+      <h3>Praktický TIP use case</h3>
+      <ol class="timeline">
+        <li data-n="1">TIP prijme škodlivú doménu cez TAXII a deduplikuje ju.</li>
+        <li data-n="2">Obohatí ju o reputáciu, passive DNS, certifikát a súvisiaci malware.</li>
+        <li data-n="3">Koreluje ju s proxy/SIEM telemetriou a zistí interný kontakt.</li>
+        <li data-n="4">Podľa confidence a kritickosti aktíva vytvorí incident v SOAR.</li>
+        <li data-n="5">Playbook môže doménu zablokovať, izolovať endpoint a vyžiadať schválenie analytika.</li>
+        <li data-n="6">Analytik potvrdí incident, pridá TTP/ATT&amp;CK mapping a výsledok sa vráti do TIP.</li>
+        <li data-n="7">Sanitizovaná inteligencia sa podľa pravidiel zdieľa partnerom.</li>
+      </ol>
+
+      <div class="duo">
+        <div class="duo-card a"><h4>MISP</h4><p>Pracuje s events, attributes, objects, tags a galaxies; umožňuje feedy, korelácie a zdieľanie medzi inštanciami.</p></div>
+        <div class="duo-card b"><h4>AlienVault OTX</h4><p>Združuje IoC do „pulses“ a poskytuje API/TAXII.</p></div>
+      </div>
+      <p style="font-size:14px; color:var(--ink-faint);">Nástroj nie je náhradou za intelligence requirements ani ľudskú validáciu.</p>
+    </section>
+
+    <!-- ============ MODUL 6 ============ -->
+    <section class="module" id="m6">
+      <span class="module-eyebrow">Modul 06</span>
+      <h2>Analýza Threat Intelligence</h2>
+      <p class="module-lead">Od popisu dát cez konkurenčné hypotézy až po prioritizáciu rizika a profil aktéra.</p>
+
+      <h3>Analytické metódy</h3>
+      <div class="chipcloud">
+        <span class="chip">Text analysis</span><span class="chip">Exploratory (EDA)</span><span class="chip">Diagnostic</span>
+        <span class="chip">Inferential</span><span class="chip">Descriptive</span><span class="chip">Predictive</span><span class="chip">Network/graph</span>
+      </div>
+      <div class="flow compact">
+        <span class="flow-step">zber</span><span class="flow-arrow">→</span><span class="flow-step">čistenie</span><span class="flow-arrow">→</span>
+        <span class="flow-step">deskriptívna analýza</span><span class="flow-arrow">→</span><span class="flow-step">inferencia/korelácia</span><span class="flow-arrow">→</span>
+        <span class="flow-step">predikcia</span><span class="flow-arrow">→</span><span class="flow-step">actionable záver</span>
+      </div>
+
+      <h3>Analysis of Competing Hypotheses (ACH)</h3>
+      <p>ACH porovnáva niekoľko alternatívnych vysvetlení voči rovnakým dôkazom. Analytik má aktívne hľadať dôkazy, ktoré hypotézu <strong>vyvracajú</strong>, zoradiť hypotézy podľa konzistencie a uviesť mieru istoty. Viac analytikov znižuje confirmation bias.</p>
+
+      <h3>IoC a TTP analýza</h3>
+      <p>IoC analyzuj podľa frekvencie, času, lokality, reputácie, vzťahov a odľahlých hodnôt. TTP sa identifikujú z behaviorálnych vzorov, korelujú s minulými udalosťami, obohacujú cez TIP/MITRE a vedú k protiopatreniu.</p>
+      <p>Analytické hypotézy validuj emuláciou protivníka. Psychologická bezpečnosť a spolupráca s inými tímami znižujú bias a dopĺňajú biznis kontext.</p>
+
+      <h3>Prioritizácia rizík</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Framework</th><th>Princíp</th></tr></thead>
+          <tbody>
+            <tr><td><strong>CVSS</strong></td><td>technická závažnosť 0–10; base, temporal a environmental faktory</td></tr>
+            <tr><td><strong>OWASP risk rating</strong></td><td>pravdepodobnosť + technický/biznis dopad pre web/mobile</td></tr>
+            <tr><td><strong>FAIR</strong></td><td>scenár → frekvencia stratovej udalosti → veľkosť straty → celkové riziko</td></tr>
+            <tr><td><strong>VPR</strong></td><td>dynamická priorita nad CVSS podľa veku, exploit maturity, pokrytia produktov a threat contextu</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">Samotné vysoké CVSS neznamená automaticky najvyššiu organizačnú prioritu.</div>
+
+      <h3>Profilovanie a atribúcia</h3>
+      <p>Profil aktéra obsahuje cieľové odvetvia/regióny, motiváciu, TTP, používané nástroje, malware, IoC, infraštruktúru a časový pattern. Atribúcia využíva lingvistiku a štýl kódu, code reuse, opakované domény/servery a pattern of life. Výsledok vyjadruj s mierou dôvery; rovnaké nástroje môže používať viac skupín.</p>
+
+      <h3>Predictive vs. proactive TI</h3>
+      <div class="duo">
+        <div class="duo-card a"><h4>Prediktívna</h4><p>Pozerá na historické dáta a modeluje pravdepodobný budúci útok.</p></div>
+        <div class="duo-card b"><h4>Proaktívna</h4><p>Už teraz aktívne hľadá a odstraňuje možné hrozby — scanning, audit, threat hunting, bug bounty.</p></div>
+      </div>
+      <p>Modely priebežne validuj, používaj interné aj externé dáta, krížovo overuj predikcie a nespoliehaj sa iba na automatizáciu.</p>
+
+      <h3>Pokročilé analytické doplnenia</h3>
+      <dl class="keyterms">
+        <div class="keyterm"><dt>Isolation Forest / One-Class SVM</dt><dd>Algoritmy na odhaľovanie odľahlých pozorovaní; výsledok závisí od kvalitného baseline a môže mať veľa false positives.</dd></div>
+        <div class="keyterm"><dt>Sentiment/text mining</dt><dd>Môže zachytiť náladu, úmysel, dezinformačnú kampaň alebo skorú diskusiu o exploite na verejných kanáloch.</dd></div>
+        <div class="keyterm"><dt>Graph analytics</dt><dd>Uzly predstavujú aktérov, infraštruktúru, malware či obete a hrany ich vzťahy; odhalí zdieľanú infraštruktúru a skryté kampane.</dd></div>
+        <div class="keyterm"><dt>Prescriptive analysis</dt><dd>Po opise, vysvetlení a predikcii navrhuje, čo má organizácia urobiť.</dd></div>
+      </dl>
+
+      <h3>Minimálny profil aktéra</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Oblasť</th><th>Čo zachytiť</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Identita</strong></td><td>názov, aliases, možné väzby, confidence atribúcie</td></tr>
+            <tr><td><strong>Motivácia</strong></td><td>financie, špionáž, sabotáž, ideológia</td></tr>
+            <tr><td><strong>Ciele</strong></td><td>odvetvia, regióny, typy organizácií a aktív</td></tr>
+            <tr><td><strong>Správanie</strong></td><td>ATT&amp;CK taktiky/techniky, attack paths, pracovný čas</td></tr>
+            <tr><td><strong>Arzenál</strong></td><td>malware, legitímne nástroje, exploity a infraštruktúra</td></tr>
+            <tr><td><strong>Indikátory</strong></td><td>IP, domény, URL, hash a host/network artefakty s časom platnosti</td></tr>
+            <tr><td><strong>Obrana</strong></td><td>dátové zdroje, detekčné pravidlá, mitigácie a hunt hypotézy</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ MODUL 7 ============ -->
+    <section class="module" id="m7">
+      <span class="module-eyebrow">Modul 07</span>
+      <h2>Threat Hunting a detekcia</h2>
+      <p class="module-lead">Proaktívne hľadanie hrozieb, ktoré unikli kontrolám — cez hypotézu, koreláciu a Pyramid of Pain.</p>
+
+      <h3>Definícia a typy huntov</h3>
+      <p>Threat hunting je proaktívne hľadanie skrytých hrozieb, ktoré unikli tradičným kontrolám, spojením technológie a ľudského úsudku.</p>
+      <div class="card-grid">
+        <div class="info-card"><h4>Structured hunt</h4><p>Vedený známymi TTP a frameworkom.</p></div>
+        <div class="info-card"><h4>Indicator hunt</h4><p>Spustený IoC alebo incidentom; reaktívnejší.</p></div>
+        <div class="info-card"><h4>Situational hunt</h4><p>Vychádza z konkrétneho rizikového profilu organizácie a aktuálnej situácie.</p></div>
+      </div>
+
+      <h3>Proces huntovania</h3>
+      <ol class="timeline">
+        <li data-n="1">Urči cieľ, rozsah, zdroje dát, nástroje a úspešný výsledok.</li>
+        <li data-n="2">Zhromaždi telemetriu a vytvor baseline normálneho správania.</li>
+        <li data-n="3">Reaguj na trigger alebo vytvor testovateľnú hypotézu: „Myslím si, že X sa deje prostredníctvom Y, preto očakávam dôkaz Z.“</li>
+        <li data-n="4">Koreluj dáta a hľadaj TTP/anomálie naprieč prostredím.</li>
+        <li data-n="5">Hypotézu potvrď, vyvráť alebo spresni a test opakuj.</li>
+        <li data-n="6">Pri potvrdení vykonaj containment, eradication a recovery.</li>
+        <li data-n="7">Zdokumentuj výsledky; vytvor nové detekcie a odporúčania.</li>
+      </ol>
+      <p>Metriky: incidenty a kompromitované aktíva podľa kritickosti, dwell time, nové detekcie, opravy logovania, nové zraniteľnosti a odporúčania na zlepšenie biznis procesov.</p>
+
+      <h3>Pyramid of Pain</h3>
+      <p>Od najľahšieho po najťažšie zmeniteľné pre útočníka:</p>
+      <div class="pyramid-wrap">
+        <div class="pyramid">
+          <div class="tier">TTP <small>najťažšie zmeniť — najtrvácnejšia detekcia</small></div>
+          <div class="tier">Nástroj <small>tool</small></div>
+          <div class="tier">Host/network artefakt</div>
+          <div class="tier">Doména</div>
+          <div class="tier">IP</div>
+          <div class="tier">Hash <small>najľahšie zmeniť</small></div>
+        </div>
+      </div>
+      <p class="pyramid-caption">hash → IP → doména → host/network artefakt → nástroj → TTP</p>
+      <div class="callout">Preto sú TTP-based detekcie trvácnejšie než blokovanie hashov. IoC sú stále užitočné na rýchlu reakciu a koreláciu.</div>
+
+      <h3>Frameworky a nástroje</h3>
+      <div class="duo">
+        <div class="duo-card a"><h4>PEAK</h4><p>Prepare, Execute, Act with Knowledge — príprava, vykonanie a premena poznatku na detekciu/automatizáciu/zmenu procesu.</p></div>
+        <div class="duo-card b"><h4>MITRE hunting</h4><p>Charakterizuj škodlivé správanie a hypotézu → analyzuj medzery a nasaď senzory/analytiku → triage, tuning a report.</p></div>
+      </div>
+      <p>Nástroje: SIEM na logy; EDR/MDR na endpoint visibility a response; honeypoty/honey credentials na deception; ML/štatistika na anomálie.</p>
+      <div class="chipcloud">
+        <span class="chip">YARA</span><span class="chip">Snort</span><span class="chip">ELK</span><span class="chip">Velociraptor</span>
+        <span class="chip">Sysinternals</span><span class="chip">Snyk</span><span class="chip">Maltego</span><span class="chip">Shodan</span>
+        <span class="chip">Ghidra</span><span class="chip">osquery</span>
+      </div>
+      <p>Tool vyberaj podľa cieľa, pokrytia prostredia, škálovania a KPI (detection rate, false positives, MTTD/response). Proaktívny hunt sa orientuje na neznáme hrozby a správanie, je kontinuálny a viac závisí od človeka než od alertov.</p>
+
+      <h3>Predpoklady úspešného huntu</h3>
+      <p>Pred huntingom over centralizovaný zber a časovú synchronizáciu logov, dostatočnú retenciu, endpoint/network/cloud visibility, znalosť normálneho správania, prístupové oprávnenia, IR eskaláciu a schopnosť bezpečne vykonať containment.</p>
+      <div class="callout">Bez telemetrie sa hypotéza nedá vyvrátiť — „nič sme nenašli“ nie je to isté ako „hrozba tam nie je“.</div>
+      <div class="callout example">„Keďže skupina používa PowerShell na discovery, na Windows serveroch očakávame neobvyklé parent-child procesy, encoded commands a následné spojenie na novú doménu.“ Z nej priamo vyplývajú potrebné dáta, dotaz a kritérium potvrdenia.</div>
+    </section>
+
+    <!-- ============ MODUL 8 ============ -->
+    <section class="module" id="m8">
+      <span class="module-eyebrow">Modul 08</span>
+      <h2>Zdieľanie TI a spolupráca</h2>
+      <p class="module-lead">Dôvera, bezpečný kanál a disciplína „validate → classify → sanitize → authorize“ pred každým zdieľaním.</p>
+
+      <h3>Modely spolupráce</h3>
+      <dl class="keyterms">
+        <div class="keyterm"><dt>ISAC</dt><dd>Výmena spravodajstva v konkrétnom odvetví.</dd></div>
+        <div class="keyterm"><dt>ISAO</dt><dd>Širšie organizácie, ktoré nemusia byť viazané na jeden sektor.</dd></div>
+        <div class="keyterm"><dt>Vendor–customer sharing</dt><dd>Vendor poskytuje telemetriu a TI; spätná väzba klientov zlepšuje produkty.</dd></div>
+        <div class="keyterm"><dt>Ďalšie partnerstvá</dt><dd>Public–private, medzinárodné, akademické a cross-sector — rozširujú perspektívu a včasné varovanie.</dd></div>
+      </dl>
+      <p style="font-size:14px; color:var(--ink-faint);">Príklady: CISA critical-infrastructure sharing, ENISA, PRIDA, MISP, AlienVault OTX, Cyber Threat Alliance, Anomali STAXX, Celerium CTIR.</p>
+
+      <h3>Dôvera a bezpečný kanál</h3>
+      <p>Dôveru buduje transparentný pôvod, čas a dôkazy; validácia pred zdieľaním; reciprocita; konzistentná kvalita a príspevok nástrojmi či výskumom.</p>
+      <div class="duo">
+        <div class="duo-card a">
+          <h4>Súkromný kanál</h4>
+          <div class="flow compact" style="margin:8px 0 0; padding:10px;">
+            <span class="flow-step">cieľ a scope</span><span class="flow-arrow">→</span>
+            <span class="flow-step">interné schválenie</span><span class="flow-arrow">→</span>
+            <span class="flow-step">partneri a metóda</span><span class="flow-arrow">→</span>
+            <span class="flow-step">MOU/data agreement</span><span class="flow-arrow">→</span>
+            <span class="flow-step">zabezpečený kanál</span>
+          </div>
+        </div>
+        <div class="duo-card b">
+          <h4>Verejný kanál</h4>
+          <div class="flow compact" style="margin:8px 0 0; padding:10px;">
+            <span class="flow-step">cieľ</span><span class="flow-arrow">→</span>
+            <span class="flow-step">schválenie</span><span class="flow-arrow">→</span>
+            <span class="flow-step">vhodná komunita</span><span class="flow-arrow">→</span>
+            <span class="flow-step">validácia a sanitizácia</span><span class="flow-arrow">→</span>
+            <span class="flow-step">bezpečné zdieľanie</span>
+          </div>
+        </div>
+      </div>
+      <p>Ochrany: end-to-end encryption, anonymizácia/pseudonymizácia, sanitizácia, access control, klasifikácia a need-to-know. Dohoda musí riešiť vlastníctvo, právo ďalšieho zdieľania, retenciu, zodpovednosť a breach notification.</p>
+      <p>Použiť možno <strong>Traffic Light Protocol (TLP)</strong> ako označenie rozsahu povoleného zdieľania; treba sa riadiť konkrétnou dohodou a aktuálnou verziou štandardu.</p>
+
+      <h3>Problémy</h3>
+      <ul>
+        <li>information overload a zlá správa dát,</li>
+        <li>priveľká závislosť od cudzej inteligencie,</li>
+        <li>únik citlivých údajov alebo prezradenie vlastnej obrany,</li>
+        <li>slabá validácia a false positives,</li>
+        <li>nedostatok zdrojov a nekompatibilné formáty,</li>
+        <li>rozdielne jurisdikcie, zamestnanecké súkromie a prebiehajúce vyšetrovania,</li>
+        <li>vendor konsolidácia, finančná životaschopnosť a zastaranie platformy.</li>
+      </ul>
+      <div class="callout">Zdieľaj aj detekčné a response postupy (napr. Splunk/YARA rules), nielen IoC. Pred odoslaním vždy over, či dataset neumožňuje sekundárne odvodiť osobné alebo citlivé informácie.</div>
+
+      <h3>Hodnotenie zdieľacej platformy</h3>
+      <p>Platforma má podporovať bezpečný prenos a šifrovanie, sanitizáciu, zrozumiteľné rozhranie, validáciu/prioritizáciu príspevkov, STIX/TAXII kompatibilitu, granular access control, audit a aktívny vývoj komunity. Skontroluj aj vlastníctvo dát, export pri ukončení služby a finančnú životaschopnosť vendora.</p>
+
+      <h3>Následky neopatrného zdieľania</h3>
+      <ul class="checklist">
+        <li><strong>Sekundárne zneužitie:</strong> dáta zozbierané na obranu sa použijú na profiling, marketing alebo škodlivú činnosť.</li>
+        <li><strong>Nesprávna atribúcia:</strong> človek alebo organizácia sa chybne spojí s útokom, čo môže poškodiť povesť a psychiku.</li>
+        <li><strong>Nečakaná inferencia:</strong> kombinácia neškodných polí odhalí návyky, identitu alebo interné procesy.</li>
+        <li><strong>Právny zásah:</strong> zverejnenie indikátora môže narušiť vyšetrovanie alebo porušiť GDPR, zmluvu či retenčné pravidlo.</li>
+        <li><strong>Dlhodobá erózia súkromia:</strong> opakované nadmerné zdieľanie normalizuje zásahy do súkromia.</li>
+      </ul>
+      <div class="flow compact">
+        <span class="flow-step">validate</span><span class="flow-arrow">→</span>
+        <span class="flow-step">classify</span><span class="flow-arrow">→</span>
+        <span class="flow-step">sanitize</span><span class="flow-arrow">→</span>
+        <span class="flow-step">authorize</span>
+      </div>
+      <p style="font-size:14px; color:var(--ink-faint);">Po zdieľaní eviduj príjemcu, účel, čas a povolené ďalšie použitie.</p>
+    </section>
+
+    <!-- ============ MODUL 9 ============ -->
+    <section class="module" id="m9">
+      <span class="module-eyebrow">Modul 09</span>
+      <h2>TI v Incident Response</h2>
+      <p class="module-lead">TI sa zapája do každej fázy IR — od prípravy profilov po lessons learned, ktoré sa vrátia späť ako nová TI.</p>
+
+      <h3>Integrácia do životného cyklu IR</h3>
+      <div class="flow">
+        <span class="flow-step">1 Preparation</span><span class="flow-arrow">→</span>
+        <span class="flow-step">2 Detection &amp; analysis</span><span class="flow-arrow">→</span>
+        <span class="flow-step">3 Containment, eradication &amp; recovery</span><span class="flow-arrow">→</span>
+        <span class="flow-step">4 Post-incident</span>
+      </div>
+      <ul>
+        <li><strong>Preparation:</strong> actor profily, relevantné IoC/TTP, scenáre, playbooky a investície do nástrojov.</li>
+        <li><strong>Detection &amp; analysis:</strong> TI v SIEM/EDR zvyšuje skorú detekciu, koreláciu a kontext triage.</li>
+        <li><strong>Containment, eradication &amp; recovery:</strong> reakcia sa prispôsobí známym TTP a správaniu aktéra.</li>
+        <li><strong>Post-incident:</strong> artefakty sa premenia na novú TI, detekcie, hunt hypotézy a aktualizované playbooky.</li>
+      </ul>
+      <div class="callout">Pozor na analysis paralysis, nekvalitné feedy, chýbajúce priority a nedostatok odborníkov.</div>
+
+      <h3>Workflow a playbook</h3>
+      <div class="duo">
+        <div class="duo-card a"><h4>Workflow</h4><p>Automatizovaný tok podmienok a akcií (ak threat score &gt; prah, izoluj endpoint a založ incident).</p></div>
+        <div class="duo-card b"><h4>Playbook</h4><p>Štruktúrovaný návod pre konkrétny scenár, zahŕňa technické aj komunikačné kroky a rozhodovacie body.</p></div>
+      </div>
+      <p>Pri ransomware sa zisťuje variant, aktér, známe dešifrovacie možnosti, rozsah, persistence a lateral movement; výsledok riadi containment, eradication a obnovu.</p>
+
+      <h3>Triage, forenzika a adaptácia</h3>
+      <p>TI pomáha určiť rozsah zero-day, korelovať IoC, identifikovať malware variant, pôvod infraštruktúry, botnet a historické vzory. Pri každej automatickej reakcii treba zohľadniť confidence, kritickosť aktíva a možný biznis dopad.</p>
+      <p>IR plány aktualizuj podľa nových ekonomických/geopolitických signálov, zdravotných rizík, kryptomenových tokov a hrozieb voči dodávateľom. Intelligence musí byť operacionalizovaná: kto reaguje, na čo, dokedy a akým postupom.</p>
+
+      <h3>Externí partneri</h3>
+      <dl class="keyterms">
+        <div class="keyterm"><dt>Polícia</dt><dd>Vyšetrovanie a dôkazy.</dd></div>
+        <div class="keyterm"><dt>Poisťovňa</dt><dd>Krytie a podmienky.</dd></div>
+        <div class="keyterm"><dt>MDR</dt><dd>Detekcia a technická reakcia.</dd></div>
+        <div class="keyterm"><dt>Externý právnik</dt><dd>Zákonnosť, privilege a oznamovanie.</dd></div>
+        <div class="keyterm"><dt>Cloud/vendor partner</dt><dd>Vlastné systémy a náprava.</dd></div>
+      </dl>
+      <p style="font-size:14px; color:var(--ink-faint);">Vopred stanov bezpečné komunikačné kanály, kontakty, rozsah zdieľania a právne dohody.</p>
+
+      <h3>Recovery a lessons learned</h3>
+      <ul>
+        <li>porovnaj obnovu s podobnými incidentmi,</li>
+        <li>splň reporting/retention povinnosti,</li>
+        <li>sprav reputačnú komunikáciu,</li>
+        <li>prispôsob školenie reálnemu útoku,</li>
+        <li>huntuj latentné IoC/TTP a skontroluj reinfekciu,</li>
+        <li>aktualizuj risk assessment, detekcie, playbooky a komunikáciu.</li>
+      </ul>
+      <p><strong>KPI:</strong> detection rate, false-positive rate, incident volume/recurrence/escalation, <strong>MTTD</strong>, čas reakcie a vyriešenia (termín MTTR vždy v reporte jednoznačne definuj), frekvencia aktualizácie TI a cost per incident.</p>
+
+      <h3>TI podľa typu incidentu</h3>
+      <div class="card-grid">
+        <div class="info-card"><h4>Supply chain</h4><p>Advisories, SBOM/závislosti, vendor kompromitácie a rovnaké TTP u partnerov.</p></div>
+        <div class="info-card"><h4>BEC/phishing</h4><p>Look-alike domény, reputácia odosielateľa, URL, ukradnuté účty; stiahni správy a blokuj doménu.</p></div>
+        <div class="info-card"><h4>IoT/OT</h4><p>Nové exploity, firmware, neobvyklé príkazy a fyzický dopad; containment nesmie vytvoriť väčšie prevádzkové riziko.</p></div>
+        <div class="info-card"><h4>Insider</h4><p>Neobvyklý čas prístupu, mass storage, cloud sharing a objem prenosu; rešpektuj pracovné právo a súkromie.</p></div>
+        <div class="info-card"><h4>IP theft</h4><p>Profil aktéra, cielené repozitáre, archívy a exfiltračné kanály.</p></div>
+        <div class="info-card"><h4>Deepfake</h4><p>Pôvod média, campaign context, komunikačný kanál a out-of-band overenie identity.</p></div>
+      </div>
+
+      <h3>Obsah lessons-learned výstupu</h3>
+      <p>Časová os; root cause; prvotný vektor; zasiahnuté aktíva a dáta; IoC/TTP; actor attribution s confidence; čo fungovalo/nefungovalo; chýbajúca telemetria; právne a komunikačné povinnosti; nápravné úlohy s vlastníkom a termínom; nové detekcie, playbooky a hunt hypotézy.</p>
+    </section>
+
+    <!-- ============ MODUL 10 ============ -->
+    <section class="module" id="m10">
+      <span class="module-eyebrow">Modul 10</span>
+      <h2>Budúcnosť a kontinuálne učenie</h2>
+      <p class="module-lead">Nové prístupy (ATOM, VINT, ASM), prepojenie TI s risk managementom cez FARM a plán, ako sa priebežne zlepšovať.</p>
+
+      <h3>Nové prístupy</h3>
+      <dl class="keyterms">
+        <div class="keyterm"><dt>ATOM</dt><dd>Account Takeover Monitoring — sleduje uniknuté účty a heslá spojené s doménou organizácie.</dd></div>
+        <div class="keyterm"><dt>VINT</dt><dd>Vulnerability Intelligence — pridáva k zraniteľnosti exploitability, výskyt exploitu, dopad na konkrétne prostredie a mitigáciu.</dd></div>
+        <div class="keyterm"><dt>ASM</dt><dd>Attack Surface Management — priebežne mapuje externý aj interný digitálny footprint, cloud, endpointy a IoT.</dd></div>
+      </dl>
+      <p>VINT zapoj do SDLC, ASM pravidelne aktualizuj a pre rôzne technológie vytvor osobitné IR plány. AI/ML pomáhajú s objemom dát, ale vyžadujú kvalitné vstupy, validáciu, vysvetliteľnosť a human oversight.</p>
+      <p style="font-size:14px; color:var(--ink-faint);">Nové riziká: integrita 3D tlačových súborov, kvantové ohrozenie slabých algoritmov, AR phishing/malicious overlays, biometrické spoofingy, 5G/edge/IoT visibility a automatizované útoky.</p>
+
+      <h3>Prepojenie TI a risk managementu</h3>
+      <p>Najprv vytvor spoločný slovník, potom vlož TI do risk procesov a nakoniec vybuduj spoločné workflowy.</p>
+      <div class="flow">
+        <span class="flow-step">Frame — kontext a smer riadenia rizika</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Assess — zraniteľnosti vs. hrozby</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Respond — koordinácia mitigácie</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Monitor — účinnosť kontrol</span>
+      </div>
+
+      <h3>Učenie a kariéra</h3>
+      <div class="cheat-grid" style="margin-top:16px;">
+        <div class="cheat-card"><h4>Týždenne</h4><p style="font-size:14px; color:var(--ink-soft); margin:0;">Prečítaj jednu kvalitnú správu a namapuj správanie na ATT&amp;CK.</p></div>
+        <div class="cheat-card"><h4>Mesačne</h4><p style="font-size:14px; color:var(--ink-soft); margin:0;">Vytvor actor profile, hunt hypotézu alebo krátku analýzu kampane.</p></div>
+        <div class="cheat-card"><h4>Štvrťročne</h4><p style="font-size:14px; color:var(--ink-soft); margin:0;">Precvič incident/tabletop, aktualizuj portfólio a zhodnoť skill gaps.</p></div>
+        <div class="cheat-card"><h4>Priebežne</h4><p style="font-size:14px; color:var(--ink-soft); margin:0;">Pracuj v labe s MISP/SIEM, publikuj sanitizované poznatky, žiadaj peer review.</p></div>
+      </div>
+      <p>Krátkodobo: blogy, webináre, konferencie a fóra. Dlhodobo: OSINT challenges, certifikácie, vlastný výskum, príspevky do OTX/MISP, laby, mentoring, stáž a projekty.</p>
+      <p><strong>Kľúčové zručnosti:</strong> stakeholder communication, analytické myslenie, systémy a siete, scripting a dátová analýza, intelligence gathering, riešenie problémov, IoC/TTP profiling, komunita a nepretržité učenie.</p>
+
+      <div class="duo">
+        <div class="duo-card a"><h4>Výzvy</h4><p>Explózia dát, obmedzené rozpočty, geopolitické zmeny, adaptabilita protivníkov, bias modelov a regulácia.</p></div>
+        <div class="duo-card b"><h4>Príležitosti</h4><p>Vyšší dopyt po odborníkoch, lepšie rozhodovanie a prepojenie TI s biznis rizikom.</p></div>
+      </div>
+      <p style="font-size:14px; color:var(--ink-soft);">TI sa používa aj v národnej bezpečnosti na terorizmus, country assessment, vojenské kapacity a kritickú infraštruktúru. Priveľmi úzka alebo rigidná regulácia rýchlo zastará a môže narušiť dôveru verejnosti.</p>
+      <div class="callout teal">Chráň aj vlastnú udržateľnosť: time blocking, krátke sústredené bloky (napr. Pomodoro), spánok, pohyb a vedomé prestávky. Kontinuálne učenie má byť dlhodobo opakovateľné, nie jednorazový nápor.</div>
+    </section>
+
+    <!-- ============ POROVNANIA ============ -->
+    <section class="module wide" id="compare">
+      <span class="module-eyebrow">Precvičovanie</span>
+      <h2>Najdôležitejšie porovnania</h2>
+      <p class="module-lead">Dvojice pojmov, ktoré sa na skúške najčastejšie zamieňajú.</p>
+      <div class="compare-grid">
+        <div class="compare-row"><div class="side"><strong>Threat data</strong>surový údaj</div><div class="vs">vs</div><div class="side"><strong>Threat intelligence</strong>analyzovaný, relevantný a actionable záver</div></div>
+        <div class="compare-row"><div class="side"><strong>IoC</strong>konkrétna stopa, ktorú možno ľahko zmeniť</div><div class="vs">vs</div><div class="side"><strong>TTP</strong>správanie/metóda aktéra</div></div>
+        <div class="compare-row"><div class="side"><strong>STIX</strong>formát obsahu</div><div class="vs">vs</div><div class="side"><strong>TAXII</strong>protokol jeho výmeny</div></div>
+        <div class="compare-row"><div class="side"><strong>Strategic TI</strong>biznis rozhodnutie a dlhý horizont</div><div class="vs">vs</div><div class="side"><strong>Technical TI</strong>detail exploitu/malware</div></div>
+        <div class="compare-row"><div class="side"><strong>Active collection</strong>priama interakcia, bohatšie dáta</div><div class="vs">vs</div><div class="side"><strong>Passive collection</strong>pozorovanie, menšie riziko</div></div>
+        <div class="compare-row"><div class="side"><strong>Automation</strong>automatický krok</div><div class="vs">vs</div><div class="side"><strong>Orchestration</strong>koordinovaný sled krokov a systémov</div></div>
+        <div class="compare-row"><div class="side"><strong>Predictive TI</strong>predpoveď z histórie</div><div class="vs">vs</div><div class="side"><strong>Proactive TI</strong>aktívne hľadanie a prevencia teraz</div></div>
+        <div class="compare-row"><div class="side"><strong>Threat hunting</strong>proaktívne hľadanie skrytej hrozby</div><div class="vs">vs</div><div class="side"><strong>Incident response</strong>reakcia na zistený incident</div></div>
+        <div class="compare-row"><div class="side"><strong>Kill Chain</strong>lineárne fázy útoku</div><div class="vs">vs</div><div class="side"><strong>MITRE ATT&amp;CK</strong>detailná matica správania a techník</div></div>
+        <div class="compare-row"><div class="side"><strong>CVSS</strong>technická závažnosť</div><div class="vs">vs</div><div class="side"><strong>Organizačné riziko</strong>závažnosť v kontexte aktív, hrozieb a dopadu</div></div>
+      </div>
+    </section>
+
+    <!-- ============ QUIZ ============ -->
+    <section class="module wide" id="quiz">
+      <span class="module-eyebrow">Precvičovanie</span>
+      <h2>Kontrolné otázky</h2>
+      <p class="module-lead">Skús odpovedať sám, potom si klikni odpoveď a over sa.</p>
+      <div class="quiz-list" id="quiz-list">
+        <!-- populated identically in HTML for no-JS fallback -->
+        <div class="quiz-item">
+          <button class="quiz-q"><span class="qtxt"><span class="qn">01</span> Kedy sa surový IoC stáva actionable threat intelligence?</span><span class="chevron">›</span></button>
+          <div class="quiz-a"><div class="quiz-a-inner">Keď je obohatený o kontext (relevancia pre naše aktíva, aktéra, kampaň, confidence) a spojený s konkrétnou odporúčanou akciou — napr. „IP komunikuje s naším serverom a patrí aktérovi útočiacemu na naše odvetvie → zablokovať a preveriť hostiteľa“. Samotný zoznam IP/hashov bez kontextu je len dáta/informácia.</div></div>
+        </div>
+        <div class="quiz-item">
+          <button class="quiz-q"><span class="qtxt"><span class="qn">02</span> Prečo sa životný cyklus TI začína požiadavkou stakeholdera?</span><span class="chevron">›</span></button>
+          <div class="quiz-a"><div class="quiz-a-inner">Lebo cyklus nezačína feedom, ale otázkou organizácie (intelligence requirement). Bez jasne pomenovaného rozhodnutia, publika, horizontu a hraníc zberu sa tím ľahko utopí v dátach a produkuje výstupy, ktoré nikto nevyužije.</div></div>
+        </div>
+        <div class="quiz-item">
+          <button class="quiz-q"><span class="qtxt"><span class="qn">03</span> Aký výstup potrebuje CEO a aký SOC analytik?</span><span class="chevron">›</span></button>
+          <div class="quiz-a"><div class="quiz-a-inner">Vedenie potrebuje krátky scenár, pravdepodobnosť, finančný/prevádzkový dopad a možnosti rozhodnutia (strategická TI). SOC potrebuje aktuálne IoC/TTP, detekčný postup, confidence, kritickosť a eskalačné pravidlo (taktická/technická TI). Rovnaké zistenie sa preto diseminuje vo viacerých podobách.</div></div>
+        </div>
+        <div class="quiz-item">
+          <button class="quiz-q"><span class="qtxt"><span class="qn">04</span> Prečo je TTP-based detekcia odolnejšia než detekcia podľa hashu?</span><span class="chevron">›</span></button>
+          <div class="quiz-a"><div class="quiz-a-inner">Podľa Pyramid of Pain je hash najľahšie zmeniteľný artefakt — útočník ho zmení jedným bajtom. TTP (správanie, metóda) je najťažšie zmeniť, lebo si vyžaduje zmenu celého postupu útočníka. Detekcia na úrovni TTP preto vydrží dlhšie a robustnejšie.</div></div>
+        </div>
+        <div class="quiz-item">
+          <button class="quiz-q"><span class="qtxt"><span class="qn">05</span> Aký je rozdiel medzi STIX a TAXII?</span><span class="chevron">›</span></button>
+          <div class="quiz-a"><div class="quiz-a-inner">STIX je štruktúrovaný formát reprezentácie TI (obsah — čo posielame). TAXII je protokol na jeho automatizovanú výmenu (kanál — ako to posielame). TAXII najčastejšie prenáša práve STIX dáta.</div></div>
+        </div>
+        <div class="quiz-item">
+          <button class="quiz-q"><span class="qtxt"><span class="qn">06</span> Aké riziká prináša aktívny zber dát?</span><span class="chevron">›</span></button>
+          <div class="quiz-a"><div class="quiz-a-inner">Vyššie právne, technické a operačné riziko a možnosť odhalenia priamo aktérom (napr. honeypoty, priame zapojenie). Výmenou za to dáva bohatšie a rýchlejšie dáta než pasívne pozorovanie.</div></div>
+        </div>
+        <div class="quiz-item">
+          <button class="quiz-q"><span class="qtxt"><span class="qn">07</span> Prečo vysoké CVSS samo osebe neurčuje prioritu patchovania?</span><span class="chevron">›</span></button>
+          <div class="quiz-a"><div class="quiz-a-inner">CVSS meria len technickú závažnosť. Reálnu prioritu určuje TI kontext: je zraniteľnosť aktívne zneužívaná, existuje funkčný exploit, používa zasiahnutý produkt naša organizácia a cieli na naše odvetvie konkrétny aktér — presne to dopĺňajú frameworky ako VPR.</div></div>
+        </div>
+        <div class="quiz-item">
+          <button class="quiz-q"><span class="qtxt"><span class="qn">08</span> Ako ACH obmedzuje confirmation bias?</span><span class="chevron">›</span></button>
+          <div class="quiz-a"><div class="quiz-a-inner">Núti analytika porovnať viac konkurenčných hypotéz voči rovnakým dôkazom a aktívne hľadať dôkazy, ktoré hypotézu vyvracajú (nielen potvrdzujú), hypotézy zoradiť podľa konzistencie a uviesť mieru istoty. Zapojenie viacerých analytikov bias znižuje ešte viac.</div></div>
+        </div>
+        <div class="quiz-item">
+          <button class="quiz-q"><span class="qtxt"><span class="qn">09</span> Aký je rozdiel medzi automatizáciou a orchestráciou v TIP/SOAR?</span><span class="chevron">›</span></button>
+          <div class="quiz-a"><div class="quiz-a-inner">Automatizácia vykoná jednu úlohu bez človeka (napr. obohatenie IP). Orchestrácia koordinuje viac automatizovaných krokov a systémov v správnom poradí podľa playbooku. Citlivé/deštruktívne rozhodnutia by si mali ponechať human oversight.</div></div>
+        </div>
+        <div class="quiz-item">
+          <button class="quiz-q"><span class="qtxt"><span class="qn">10</span> Ako má vyzerať testovateľná threat-hunting hypotéza?</span><span class="chevron">›</span></button>
+          <div class="quiz-a"><div class="quiz-a-inner">Formát „Myslím si, že X sa deje prostredníctvom Y, preto očakávam dôkaz Z.“ Napr. „Keďže skupina používa PowerShell na discovery, na Windows serveroch očakávame neobvyklé parent-child procesy, encoded commands a spojenie na novú doménu.“ Z nej priamo vyplýva potrebný dátový zdroj, dotaz a kritérium potvrdenia/vyvrátenia.</div></div>
+        </div>
+        <div class="quiz-item">
+          <button class="quiz-q"><span class="qtxt"><span class="qn">11</span> Ako threat hunting zlepšuje incident response a naopak?</span><span class="chevron">›</span></button>
+          <div class="quiz-a"><div class="quiz-a-inner">Hunting nájde skryté hrozby skôr, než eskalujú do incidentu, a jeho zistenia sa stanú novými detekciami. IR naopak dodáva hunterom reálne artefakty, TTP a lessons-learned, z ktorých vznikajú nové hunt hypotézy — cyklus sa vzájomne dopĺňa.</div></div>
+        </div>
+        <div class="quiz-item">
+          <button class="quiz-q"><span class="qtxt"><span class="qn">12</span> Čo treba sanitizovať pred zdieľaním TI?</span><span class="chevron">›</span></button>
+          <div class="quiz-a"><div class="quiz-a-inner">Osobné a citlivé údaje, interné identifikátory a čokoľvek, čo by sekundárnou inferenciou odhalilo identitu, návyky alebo interné procesy. Postupuj podľa poradia validate → classify → sanitize → authorize a po zdieľaní eviduj príjemcu, účel, čas a povolené ďalšie použitie.</div></div>
+        </div>
+        <div class="quiz-item">
+          <button class="quiz-q"><span class="qtxt"><span class="qn">13</span> Kde sa TI zapája v každej fáze IR lifecycle?</span><span class="chevron">›</span></button>
+          <div class="quiz-a"><div class="quiz-a-inner">Preparation — actor profily, IoC/TTP, playbooky. Detection & analysis — kontext a korelácia v SIEM/EDR. Containment/eradication/recovery — reakcia prispôsobená známym TTP aktéra. Post-incident — artefakty sa menia na novú TI, detekcie a hunt hypotézy.</div></div>
+        </div>
+        <div class="quiz-item">
+          <button class="quiz-q"><span class="qtxt"><span class="qn">14</span> Akými KPI sa dá preukázať, že TI reálne pomáha?</span><span class="chevron">›</span></button>
+          <div class="quiz-a"><div class="quiz-a-inner">Mean time to decision/detekcia (MTTD), false-positive rate, podiel odhalených/zmiernených hrozieb, využitie inteligencie, úspešnosť huntov, počet nových IoC/TTP/detekcií, incidenty spustené inteligenciou, zraniteľnosti opravené vďaka TI a cost per incident.</div></div>
+        </div>
+        <div class="quiz-item">
+          <button class="quiz-q"><span class="qtxt"><span class="qn">15</span> Ako sa líšia ATOM, VINT a ASM?</span><span class="chevron">›</span></button>
+          <div class="quiz-a"><div class="quiz-a-inner">ATOM (Account Takeover Monitoring) sleduje uniknuté účty/heslá spojené s doménou organizácie. VINT (Vulnerability Intelligence) dopĺňa zraniteľnosť o exploitability a reálny dopad na naše prostredie. ASM (Attack Surface Management) priebežne mapuje celý externý aj interný digitálny footprint.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FLASHCARDS ============ -->
+    <section class="module wide" id="flashcards">
+      <span class="module-eyebrow">Precvičovanie</span>
+      <h2>Kartičky pojmov</h2>
+      <p class="module-lead">Klikni na kartičku pre definíciu. Poradie zamiešaš tlačidlom nižšie.</p>
+      <div class="fc-controls">
+        <button class="btn primary" id="fc-shuffle">⤾ Zamiešať</button>
+        <button class="btn" id="fc-flip-all">Otočiť všetky</button>
+        <span class="fc-counter" id="fc-counter">36 pojmov</span>
+      </div>
+      <div class="fc-grid" id="fc-grid"></div>
+    </section>
+
+    <!-- ============ CHEAT SHEET ============ -->
+    <section class="module wide" id="cheat">
+      <span class="module-eyebrow">Precvičovanie</span>
+      <h2>Mini ťahák na opakovanie</h2>
+      <p class="module-lead">Posledný pohľad pred písomkou — všetky procesné reťazce na jednom mieste.</p>
+      <div class="cheat-grid">
+        <div class="cheat-card">
+          <h4>TI Lifecycle</h4>
+          <div class="flow compact"><span class="flow-step">plánuj</span><span class="flow-arrow">→</span><span class="flow-step">zbieraj</span><span class="flow-arrow">→</span><span class="flow-step">spracuj</span><span class="flow-arrow">→</span><span class="flow-step">analyzuj</span><span class="flow-arrow">→</span><span class="flow-step">distribuuj</span><span class="flow-arrow">→</span><span class="flow-step">feedback</span></div>
+        </div>
+        <div class="cheat-card">
+          <h4>Cyber Kill Chain</h4>
+          <div class="flow compact"><span class="flow-step">recon</span><span class="flow-arrow">→</span><span class="flow-step">weaponize</span><span class="flow-arrow">→</span><span class="flow-step">deliver</span><span class="flow-arrow">→</span><span class="flow-step">exploit</span><span class="flow-arrow">→</span><span class="flow-step">install</span><span class="flow-arrow">→</span><span class="flow-step">C2</span><span class="flow-arrow">→</span><span class="flow-step">objective</span></div>
+        </div>
+        <div class="cheat-card">
+          <h4>Threat Hunt</h4>
+          <div class="flow compact"><span class="flow-step">scope/baseline</span><span class="flow-arrow">→</span><span class="flow-step">hypotéza</span><span class="flow-arrow">→</span><span class="flow-step">zber a korelácia</span><span class="flow-arrow">→</span><span class="flow-step">test</span><span class="flow-arrow">→</span><span class="flow-step">response</span><span class="flow-arrow">→</span><span class="flow-step">report + detekcia</span></div>
+        </div>
+        <div class="cheat-card">
+          <h4>Pyramid of Pain</h4>
+          <div class="flow compact"><span class="flow-step">hash</span><span class="flow-arrow">→</span><span class="flow-step">IP</span><span class="flow-arrow">→</span><span class="flow-step">doména</span><span class="flow-arrow">→</span><span class="flow-step">artefakt</span><span class="flow-arrow">→</span><span class="flow-step">tool</span><span class="flow-arrow">→</span><span class="flow-step">TTP</span></div>
+        </div>
+        <div class="cheat-card">
+          <h4>Incident Response</h4>
+          <div class="flow compact"><span class="flow-step">príprava</span><span class="flow-arrow">→</span><span class="flow-step">detekcia/analýza</span><span class="flow-arrow">→</span><span class="flow-step">containment/eradication/recovery</span><span class="flow-arrow">→</span><span class="flow-step">lessons learned</span></div>
+        </div>
+        <div class="cheat-card">
+          <h4>Dobrá inteligencia je…</h4>
+          <div class="cheat-traits">
+            <span>relevantná</span><span>aktuálna</span><span>presná</span><span>dôveryhodná</span>
+            <span>kontextová</span><span>včasná</span><span>actionable</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      TIEv1 · študijné poznámky spracované na učenie — 10 modulov, dôraz na význam pojmov a vzťahy medzi nimi.
+    </footer>
+  </main>
+</div>
+
+<button class="top-btn" id="top-btn" aria-label="Späť hore">↑</button>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- scrollspy + progress ---------- */
+  var modIds = ["1","2","3","4","5","6","7","8","9","10"];
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var sections = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+
+  function setActive(id){
+    links.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === '#' + id); });
+  }
+  var navToggle = document.getElementById('nav-toggle');
+  var tocEl = document.getElementById('toc');
+  navToggle.addEventListener('click', function(){
+    var open = tocEl.classList.toggle('open');
+    navToggle.classList.toggle('open', open);
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  links.forEach(function(a){
+    a.addEventListener('click', function(){
+      if(window.matchMedia('(max-width:900px)').matches){
+        tocEl.classList.remove('open');
+        navToggle.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){ setActive(entry.target.id); }
+    });
+  }, { rootMargin: "-15% 0px -70% 0px", threshold: 0 });
+  sections.forEach(function(s){ io.observe(s); });
+
+  /* ---------- read-progress (localStorage) ---------- */
+  var STORE_KEY = "ti-study-progress";
+  var read;
+  try { read = JSON.parse(localStorage.getItem(STORE_KEY) || "{}"); } catch(e){ read = {}; }
+
+  function saveProgress(){
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(read)); } catch(e){}
+    var count = modIds.filter(function(m){ return read[m]; }).length;
+    document.getElementById('progress-count').textContent = count + ' / 10';
+    document.getElementById('progress-fill').style.width = (count/10*100) + '%';
+  }
+
+  modIds.forEach(function(m){
+    var check = document.getElementById('check-' + m);
+    if(!check) return;
+    function render(){ check.classList.toggle('done', !!read[m]); }
+    render();
+    check.addEventListener('click', function(ev){
+      ev.preventDefault(); ev.stopPropagation();
+      read[m] = !read[m];
+      render(); saveProgress();
+    });
+  });
+  saveProgress();
+
+  /* mark module read automatically once its section has been mostly scrolled past */
+  var autoIo = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      var el = entry.target;
+      var m = el.id.replace('m','');
+      if(entry.boundingClientRect.top < 0 && modIds.indexOf(m) !== -1 && !read[m]){
+        read[m] = true;
+        var check = document.getElementById('check-' + m);
+        if(check) check.classList.add('done');
+        saveProgress();
+      }
+    });
+  }, { threshold: 0 });
+  modIds.forEach(function(m){
+    var el = document.getElementById('m' + m);
+    if(el) autoIo.observe(el);
+  });
+
+  /* ---------- quiz accordion ---------- */
+  document.querySelectorAll('.quiz-item').forEach(function(item){
+    var btn = item.querySelector('.quiz-q');
+    btn.addEventListener('click', function(){ item.classList.toggle('open'); });
+  });
+
+  /* ---------- back to top ---------- */
+  var topBtn = document.getElementById('top-btn');
+  window.addEventListener('scroll', function(){
+    topBtn.classList.toggle('show', window.scrollY > 600);
+  });
+  topBtn.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+  /* ---------- flashcards ---------- */
+  var terms = [
+    ["Threat intelligence","Kontextový, dátami podložený proces, ktorý analyzuje hrozby tak, aby organizácia vedela konať — kľúčové je slovo actionable."],
+    ["IoC","Indicator of Compromise — stopa možnej kompromitácie: IP, doména, URL, hash, súbor, neobvyklý záznam v registri."],
+    ["TTP","Tactics, Techniques and Procedures — ciele, metódy, správanie a konkrétne postupy aktéra."],
+    ["APT","Advanced Persistent Threat — dobre financovaný, sofistikovaný a vytrvalý aktér, ktorý sa snaží dlho zostať neodhalený."],
+    ["Threat landscape","Meniaci sa súbor hrozieb, rizík a technológií relevantných pre organizáciu alebo odvetvie."],
+    ["Intelligence requirement","Požiadavka, ktorá pomenúva rozhodnutie, publikum, časový horizont a hranice zberu."],
+    ["Strategická TI","Dlhodobý horizont, publikum vedenie, minimum technických detailov, biznis a geopolitické riziká."],
+    ["Operatívna TI","Krátky až stredný horizont; konkrétni aktéri, kampane, ciele a úmysly pre bezpečnostné tímy."],
+    ["Taktická TI","Krátkodobý horizont; TTP a okamžité úpravy kontrol pre SOC/obranu."],
+    ["Technická TI","Malware, exploity, IP, domény, hash hodnoty pre technických špecialistov."],
+    ["Living off the land","Zneužitie legitímnych nástrojov systému útočníkom, aby splynul s bežnou prevádzkou."],
+    ["Cyber Kill Chain","Sedem lineárnych fáz útoku od reconnaissance po actions on objectives."],
+    ["Pyramid of Pain","Hierarchia indikátorov podľa náročnosti zmeny pre útočníka: hash → IP → doména → artefakt → tool → TTP."],
+    ["MITRE ATT&CK","Vedomostná báza taktík a techník zostavená zo skutočných pozorovaných útokov."],
+    ["STIX","Štruktúrovaný formát na reprezentáciu threat intelligence."],
+    ["TAXII","Protokol na automatizovanú, obojsmernú výmenu TI, často prenáša STIX."],
+    ["Aktívny zber","Honeypoty alebo priame zapojenie; bohatšie dáta, ale vyššie riziko odhalenia."],
+    ["Pasívny zber","Pozorovanie verejných zdrojov; nižšie riziko, menej detailov a slabší kontext."],
+    ["Enrichment","Pridanie reputácie, geolokácie, WHOIS/DNS, malware family, CVE, actor a MITRE mappingu k dátam."],
+    ["TIP","Threat Intelligence Platform — centralizuje zber, enrichment, koreláciu, prioritizáciu a zdieľanie TI."],
+    ["Automatizácia","Jedna úloha sa vykoná bez človeka, napr. obohatenie IP alebo blokovanie potvrdenej domény."],
+    ["Orchestrácia","Koordinácia viacerých automatizovaných krokov a systémov podľa playbooku."],
+    ["ACH","Analysis of Competing Hypotheses — porovnáva alternatívne vysvetlenia a hľadá dôkazy, ktoré ich vyvracajú."],
+    ["CVSS","Technická závažnosť zraniteľnosti 0–10 (base, temporal, environmental faktory)."],
+    ["FAIR","Framework: scenár → frekvencia stratovej udalosti → veľkosť straty → celkové riziko."],
+    ["VPR","Dynamická priorita nad CVSS podľa veku, exploit maturity, pokrytia produktov a threat contextu."],
+    ["Attribúcia","Priradenie útoku aktérovi na základe lingvistiky, code reuse, infraštruktúry a pattern of life, vždy s mierou dôvery."],
+    ["Threat hunting","Proaktívne hľadanie skrytých hrozieb, ktoré unikli tradičným kontrolám, kombináciou technológie a úsudku."],
+    ["Structured hunt","Hunt vedený známymi TTP a frameworkom."],
+    ["Indicator hunt","Hunt spustený konkrétnym IoC alebo incidentom; reaktívnejší."],
+    ["PEAK","Prepare, Execute, Act with Knowledge — framework pre threat hunting."],
+    ["ISAC","Výmena spravodajstva v konkrétnom odvetví (Information Sharing and Analysis Center)."],
+    ["TLP","Traffic Light Protocol — označenie rozsahu povoleného zdieľania informácie."],
+    ["MDR","Managed Detection and Response — externý partner pre detekciu a technickú reakciu pri incidente."],
+    ["ATOM","Account Takeover Monitoring — sledovanie uniknutých účtov/hesiel spojených s doménou organizácie."],
+    ["VINT","Vulnerability Intelligence — exploitability, výskyt exploitu a reálny dopad zraniteľnosti na naše prostredie."],
+    ["ASM","Attack Surface Management — priebežné mapovanie externého aj interného digitálneho footprintu."],
+    ["FARM","Frame → Assess → Respond → Monitor — prepojenie TI s risk managementom."]
+  ];
+
+  var grid = document.getElementById('fc-grid');
+  var counter = document.getElementById('fc-counter');
+  counter.textContent = terms.length + ' pojmov';
+
+  function renderCards(list){
+    grid.innerHTML = '';
+    list.forEach(function(pair){
+      var card = document.createElement('div');
+      card.className = 'fc';
+      card.innerHTML =
+        '<div class="fc-inner">' +
+          '<div class="fc-face front"><span class="fc-tag">Pojem</span><span class="fc-term">' + pair[0] + '</span><span class="fc-hint">klikni pre definíciu ›</span></div>' +
+          '<div class="fc-face back"><span class="fc-def">' + pair[1] + '</span></div>' +
+        '</div>';
+      card.addEventListener('click', function(){ card.classList.toggle('flipped'); });
+      grid.appendChild(card);
+    });
+  }
+  renderCards(terms);
+
+  document.getElementById('fc-shuffle').addEventListener('click', function(){
+    for(var i = terms.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i+1));
+      var tmp = terms[i]; terms[i] = terms[j]; terms[j] = tmp;
+    }
+    renderCards(terms);
+  });
+  document.getElementById('fc-flip-all').addEventListener('click', function(){
+    document.querySelectorAll('.fc').forEach(function(c){ c.classList.toggle('flipped'); });
+  });
+
+})();
+</script>
+</body>
+</html>
