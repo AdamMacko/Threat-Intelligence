@@ -27,6 +27,12 @@
   --type-operational:#c76a1f;
   --type-tactical:#1c7a6e;
   --type-technical:#8452c9;
+  --ok:#1c7a4a;
+  --ok-ink:#0e5030;
+  --ok-soft:#dcf1e4;
+  --bad:#c23b3b;
+  --bad-ink:#8a1f1f;
+  --bad-soft:#f7dede;
   --shadow:0 1px 2px rgba(16,21,29,.06), 0 8px 24px -12px rgba(16,21,29,.18);
   --radius-s:6px;
   --radius-m:10px;
@@ -56,6 +62,12 @@
     --type-operational:#f0a052;
     --type-tactical:#4fc9b8;
     --type-technical:#b58af0;
+    --ok:#4fcf8a;
+    --ok-ink:#8ee6b5;
+    --ok-soft:#123425;
+    --bad:#f0685f;
+    --bad-ink:#f6a29c;
+    --bad-soft:#3a1616;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 28px -14px rgba(0,0,0,.6);
   }
 }
@@ -79,6 +91,12 @@
   --type-operational:#f0a052;
   --type-tactical:#4fc9b8;
   --type-technical:#b58af0;
+  --ok:#4fcf8a;
+  --ok-ink:#8ee6b5;
+  --ok-soft:#123425;
+  --bad:#f0685f;
+  --bad-ink:#f6a29c;
+  --bad-soft:#3a1616;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 28px -14px rgba(0,0,0,.6);
 }
 
@@ -414,6 +432,36 @@ td strong{color:var(--ink);}
 .quiz-a-inner{padding:0 18px 17px 46px; font-size:14.5px; color:var(--ink-soft);}
 .quiz-a-inner strong{color:var(--ink);}
 
+/* ===================== MC EXAM QUIZ ===================== */
+.mcq-bar{
+  display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  margin-top:18px; padding:12px 16px; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-m);
+}
+.mcq-score{font-family:var(--font-mono); font-size:14px; font-weight:700; color:var(--ink);}
+.mcq-score .n{color:var(--accent-ink);}
+.mcq-page-title{
+  font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.08em; font-size:12.5px;
+  color:var(--ink-faint); margin:26px 0 4px;
+}
+.mcq-list{display:flex; flex-direction:column; gap:12px; margin-top:12px;}
+.mcq-item{border:1px solid var(--line); border-radius:var(--radius-m); background:var(--surface); padding:16px 18px;}
+.mcq-q{margin:0 0 12px; font-size:15px; line-height:1.55; color:var(--ink);}
+.mcq-q .qn{font-family:var(--font-mono); color:var(--accent-ink); font-weight:700; margin-right:8px;}
+.mcq-opts{display:flex; flex-direction:column; gap:8px;}
+.mcq-opt{
+  text-align:left; padding:10px 14px; border:1px solid var(--line); border-radius:var(--radius-s);
+  background:var(--surface-2); color:var(--ink); font-family:var(--font-body); font-size:14.5px; cursor:pointer;
+  transition:background .15s ease, border-color .15s ease, color .15s ease;
+}
+.mcq-opt:hover{border-color:var(--line-strong);}
+.mcq-item.answered .mcq-opt{cursor:default;}
+.mcq-item.answered .mcq-opt:hover{border-color:var(--line);}
+.mcq-item.answered .mcq-opt:not(.correct):not(.picked-wrong){opacity:.5;}
+.mcq-opt.correct{background:var(--ok-soft); border-color:var(--ok); color:var(--ok-ink); font-weight:600;}
+.mcq-opt.correct::after{content:" ✓"; font-weight:700;}
+.mcq-opt.picked-wrong{background:var(--bad-soft); border-color:var(--bad); color:var(--bad-ink); font-weight:600;}
+.mcq-opt.picked-wrong::after{content:" ✗"; font-weight:700;}
+
 /* ===================== FLASHCARDS ===================== */
 .fc-controls{display:flex; gap:10px; align-items:center; margin:20px 0; flex-wrap:wrap;}
 .btn{
@@ -495,6 +543,7 @@ footer.page-footer{
       <span class="toc-group-label">Precvičovanie</span>
       <a href="#compare"><span class="n">·</span>Porovnania</a>
       <a href="#quiz"><span class="n">·</span>Kontrolné otázky</a>
+      <a href="#examquiz"><span class="n">·</span>Skúškový test</a>
       <a href="#flashcards"><span class="n">·</span>Kartičky pojmov</a>
       <a href="#cheat"><span class="n">·</span>Mini ťahák</a>
     </nav>
@@ -1221,6 +1270,205 @@ footer.page-footer{
       </div>
     </section>
 
+    <!-- ============ MC EXAM QUIZ ============ -->
+    <section class="module wide" id="examquiz">
+      <span class="module-eyebrow">Precvičovanie</span>
+      <h2>Skúškový test</h2>
+      <p class="module-lead">20 otázok z výpisu skúšky ECCouncil 312-85 (CTIA), preložených do slovenčiny. Klikni na odpoveď — hneď sa vyhodnotí. Odpovede vychádzajú z vlastnej analýzy pojmov CTIA, nie z oficiálneho kľúča EC-Councilu.</p>
+      <div class="mcq-bar">
+        <span class="mcq-score">Skóre: <span class="n" id="mcq-score-n">0</span> / <span id="mcq-score-total">20</span></span>
+        <button class="btn" id="mcq-reset">⤾ Vynulovať test</button>
+      </div>
+
+      <h3 class="mcq-page-title">Strana 1 (otázky 1 – 10)</h3>
+      <div class="mcq-list">
+        <div class="mcq-item" data-correct="D">
+          <p class="mcq-q"><span class="qn">01</span>Daniel je profesionálny hacker, ktorého cieľom je zaútočiť na systém a ukradnúť dáta a peniaze pre vlastný zisk. Hackuje s cieľom získať dôverné údaje, ako sú rodné čísla, osobné identifikačné údaje (PII) zamestnancov a informácie o kreditných kartách. Po získaní dôverných údajov ich ďalej predáva na čiernom trhu, aby zarobil peniaze. Do ktorej z nasledujúcich kategórií aktérov hrozby patrí Daniel?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Priemyselní špióni</button>
+            <button class="mcq-opt" data-key="B">B. Štátom sponzorovaní hackeri</button>
+            <button class="mcq-opt" data-key="C">C. Insider threat (hrozba zvnútra)</button>
+            <button class="mcq-opt" data-key="D">D. Organizovaní hackeri</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="D">
+          <p class="mcq-q"><span class="qn">02</span>Útočník inštruuje boty, aby použili maskovací mechanizmus na skrytie miest, odkiaľ šíri phishing a malvér, v rýchlo sa meniacej sieti kompromitovaných botov. Pri tejto technike jedno doménové meno zodpovedá viacerým IP adresám. Ktorú z nasledujúcich techník útočník použil?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Prenos DNS zóny (DNS zone transfer)</button>
+            <button class="mcq-opt" data-key="B">B. Dynamické DNS (Dynamic DNS)</button>
+            <button class="mcq-opt" data-key="C">C. DNS interrogation (výsluch DNS)</button>
+            <button class="mcq-opt" data-key="D">D. Fast-Flux DNS</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="C">
+          <p class="mcq-q"><span class="qn">03</span>Kathy chce zabezpečiť, aby zdieľala threat intelligence obsahujúcu citlivé informácie len s vhodným publikom. Preto použila Traffic Light Protocol (TLP). Ktorá farba TLP označuje, že informácia sa má zdieľať iba v rámci konkrétnej komunity?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Červená (Red)</button>
+            <button class="mcq-opt" data-key="B">B. Biela (White)</button>
+            <button class="mcq-opt" data-key="C">C. Zelená (Green)</button>
+            <button class="mcq-opt" data-key="D">D. Jantárová (Amber)</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="A">
+          <p class="mcq-q"><span class="qn">04</span>Moses, threat intelligence analytik v spoločnosti InfoTec Inc., chce pomocou pokročilých operátorov Google vyhľadávania nájsť dôležité informácie o potenciálnych hrozbách, ktorým organizácia čelí. Chce zistiť, či nie sú niekde hostované falošné webové stránky s adresou podobnou URL organizácie. Ktorý z nasledujúcich vyhľadávacích dotazov Google by mal Moses použiť?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. related: www.infothech.org</button>
+            <button class="mcq-opt" data-key="B">B. info: www.infothech.org</button>
+            <button class="mcq-opt" data-key="C">C. link: www.infothech.org</button>
+            <button class="mcq-opt" data-key="D">D. cache: www.infothech.org</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="C">
+          <p class="mcq-q"><span class="qn">05</span>Tím threat intelligence analytikov vykonáva analýzu hrozby na danom malvéri a každý z nich prišiel s vlastnou teóriou a dôkazmi na jej podporu. Ktorý z nasledujúcich analytických procesov musí manažér threat intelligence použiť na identifikáciu najkonzistentnejšej teórie spomedzi všetkých?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Threat modelling (modelovanie hrozieb)</button>
+            <button class="mcq-opt" data-key="B">B. Application decomposition and analysis, ADA</button>
+            <button class="mcq-opt" data-key="C">C. Analysis of competing hypotheses, ACH</button>
+            <button class="mcq-opt" data-key="D">D. Automatizovaná technická analýza</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="B">
+          <p class="mcq-q"><span class="qn">06</span>Miley, analytička, chce znížiť objem zozbieraných dát a zjednodušiť ich ukladanie a zdieľanie. Používa filtrovanie, tagovanie a queuing (radenie do frontu), aby z veľkého množstva neštruktúrovaných dát vytriedila relevantné a štruktúrované údaje. Ktorú z nasledujúcich techník Miley použila?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Sandboxing</button>
+            <button class="mcq-opt" data-key="B">B. Normalizácia</button>
+            <button class="mcq-opt" data-key="C">C. Vizualizácia dát</button>
+            <button class="mcq-opt" data-key="D">D. Convenience sampling</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="B">
+          <p class="mcq-q"><span class="qn">07</span>Bob, threat analytik, pracuje v organizácii TechTop. Bol požiadaný, aby zbieral inteligenciu na pokrytie potrieb a požiadaviek Red Teamu v rámci organizácie. Ktorá z nasledujúcich možností predstavuje potreby Red Teamu?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Inteligencia o náraste útokov cielených na konkrétnu zraniteľnosť softvéru/OS</button>
+            <button class="mcq-opt" data-key="B">B. Inteligencia o najnovších zraniteľnostiach, aktéroch hrozieb a ich TTP</button>
+            <button class="mcq-opt" data-key="C">C. Inteligencia z analýzy najnovších útokov na podobné organizácie</button>
+            <button class="mcq-opt" data-key="D">D. Inteligencia odhaľujúca riziká strategických biznis rozhodnutí</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="C">
+          <p class="mcq-q"><span class="qn">08</span>Michael, threat analytik, pracuje v organizácii TechTop a bol požiadaný, aby vykonal analýzu cyber-threat intelligence. Po získaní informácií o hrozbách začal tieto informácie analyzovať a snaží sa pochopiť povahu hrozieb. V akej fáze cyber-threat intelligence sa Michael práve nachádza?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Unknown unknowns</button>
+            <button class="mcq-opt" data-key="B">B. Unknowns unknown</button>
+            <button class="mcq-opt" data-key="C">C. Known unknowns</button>
+            <button class="mcq-opt" data-key="D">D. Known knowns</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="A">
+          <p class="mcq-q"><span class="qn">09</span>Spoločnosť Enrage Tech najala bezpečnostného analytika Enriqua na vykonanie analýzy threat intelligence. Pri zbere dát použil kontrarozviedny (counterintelligence) mechanizmus, kde sa na komunikáciu medzi servermi využíva rekurzívny DNS server. Keď je z ľubovoľného name servera vygenerovaná požiadavka na rekurzívny DNS server, tento server zaznamenáva prijaté odpovede. Záznamy sa následne replikujú a ukladajú do centrálnej databázy. Pomocou týchto logov analyzoval škodlivé pokusy cez DNS infraštruktúru. Ktorú z nasledujúcich techník zberu dát cyber counterintelligence (CCI) Enrique použil?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Zber dát pomocou pasívneho monitorovania DNS</button>
+            <button class="mcq-opt" data-key="B">B. Zber dát pomocou DNS interrogation</button>
+            <button class="mcq-opt" data-key="C">C. Zber dát pomocou prenosu DNS zóny</button>
+            <button class="mcq-opt" data-key="D">D. Zber dát pomocou dynamického DNS (DDNS)</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="C">
+          <p class="mcq-q"><span class="qn">10</span>John, profesionálny hacker, sa snaží vykonať APT útok na sieť cieľovej organizácie. Získal prístup do jedného systému cieľovej organizácie a rôznymi technikami sa snaží získať administrátorské prihlasovacie údaje, aby si rozšíril prístup k ďalším systémom v sieti. V akej fáze životného cyklu Advanced Persistent Threat (APT) sa John práve nachádza?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Initial intrusion (počiatočný prienik)</button>
+            <button class="mcq-opt" data-key="B">B. Search and exfiltration</button>
+            <button class="mcq-opt" data-key="C">C. Expansion (rozšírenie)</button>
+            <button class="mcq-opt" data-key="D">D. Persistence (udržanie prítomnosti)</button>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="mcq-page-title">Strana 2 (otázky 11 – 20)</h3>
+      <div class="mcq-list">
+        <div class="mcq-item" data-correct="C">
+          <p class="mcq-q"><span class="qn">11</span>Jim pracuje ako bezpečnostný analytik vo veľkej nadnárodnej spoločnosti. Nedávno prenikla do ich firemnej siete skupina hackerov a na zber citlivých dát použila techniku data staging. Zozbierali najrôznejšie citlivé údaje o zamestnancoch a zákazníkoch, obchodnej taktike organizácie, finančné informácie, informácie o sieťovej infraštruktúre a podobne. Čo by mal Jim urobiť, aby odhalil data staging skôr, než hackeri dáta exfiltrujú zo siete?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Odhaliť útok kontrolou obsahu poľa user agent</button>
+            <button class="mcq-opt" data-key="B">B. Analyzovať škodlivé DNS požiadavky, DNS payload a neurčené domény</button>
+            <button class="mcq-opt" data-key="C">C. Monitorovať sieťovú premávku, file integrity monitoring a logy udalostí</button>
+            <button class="mcq-opt" data-key="D">D. Identifikovať web shell analýzou prístupov na server a chybových logov</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="D">
+          <p class="mcq-q"><span class="qn">12</span>Spoločnosť Andrews and Sons Corp. sa rozhodla zdieľať informácie o hrozbách medzi partnermi na zdieľanie. Garry, threat analytik, má za úlohu dodržiavať model dôvery potrebný na vytvorenie dôvery medzi partnermi. V modeli dôvery, ktorý používa, prvá organizácia využíva súbor dôkazov od druhej organizácie a úroveň dôvery medzi oboma organizáciami závisí od miery a kvality dôkazov, ktoré prvá organizácia poskytla. Ktorý typ modelu dôvery Garry použil?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Sprostredkovaná dôvera (Mediated trust)</button>
+            <button class="mcq-opt" data-key="B">B. Nariadená dôvera (Mandated trust)</button>
+            <button class="mcq-opt" data-key="C">C. Priama historická dôvera (Direct historical trust)</button>
+            <button class="mcq-opt" data-key="D">D. Validovaná dôvera (Validated trust)</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="C">
+          <p class="mcq-q"><span class="qn">13</span>Threat analytik získa informáciu o hrozbe vo forme požiadavky na pripojenie zo vzdialeného hostiteľa na server. Pri spracovaní dát získa kontextovú informáciu, že server v krátkom čase prijíma množstvo požiadaviek na pripojenie z rôznych geografických lokalít, v dôsledku čoho je server zaťažený a jeho výkon postupne klesá. O ktorý z nasledujúcich útokov na klientskú organizáciu ide?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. DHCP útoky</button>
+            <button class="mcq-opt" data-key="B">B. MAC spoofing útok</button>
+            <button class="mcq-opt" data-key="C">C. Distributed Denial-of-Service (DDoS) útok</button>
+            <button class="mcq-opt" data-key="D">D. Bandwidth útok</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="C">
+          <p class="mcq-q"><span class="qn">14</span>Jame, profesionálny hacker, sa snaží získať dôverné informácie cieľovej organizácie. Identifikoval zraniteľnosti v cieľovom systéme a vytvoril na mieru šitý škodlivý payload pomocou exploitu a backdooru, ktorý pošle obeti. Ktorú z nasledujúcich fáz metodiky cyber kill chain Jame práve vykonáva?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Reconnaissance (prieskum)</button>
+            <button class="mcq-opt" data-key="B">B. Installation (inštalácia)</button>
+            <button class="mcq-opt" data-key="C">C. Weaponization (tvorba zbrane/payloadu)</button>
+            <button class="mcq-opt" data-key="D">D. Exploitation (zneužitie zraniteľnosti)</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="D">
+          <p class="mcq-q"><span class="qn">15</span>Steve pracuje ako analytik vo firme so sídlom v Spojenom kráľovstve. Počas monitorovania siete zistil, že v krátkom čase dochádza k viacerým prihláseniam z rôznych lokalít. Okrem toho zaznamenal aj nezvyčajné vzory prihlasovania z lokalít, s ktorými organizácia nemá žiadne obchodné vzťahy. Ktorý z nasledujúcich kľúčových indikátorov kompromitácie (IoC) tento scenár predstavuje?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Nezvyčajná odchádzajúca sieťová premávka</button>
+            <button class="mcq-opt" data-key="B">B. Neočakávané patchovanie systémov</button>
+            <button class="mcq-opt" data-key="C">C. Nezvyčajná aktivita cez privilegovaný používateľský účet</button>
+            <button class="mcq-opt" data-key="D">D. Geografické anomálie</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="C">
+          <p class="mcq-q"><span class="qn">16</span>Ktorá z nasledujúcich charakteristík APT označuje množstvo pokusov útočníka o vstup do siete cieľa?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Tolerancia rizika (Risk tolerance)</button>
+            <button class="mcq-opt" data-key="B">B. Timeliness (včasnosť)</button>
+            <button class="mcq-opt" data-key="C">C. Attack origination points</button>
+            <button class="mcq-opt" data-key="D">D. Multiphased (viacfázovosť)</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="C">
+          <p class="mcq-q"><span class="qn">17</span>Lizzy, analytička, chce určiť úroveň rizika pre organizáciu, aby mohla naplánovať protiopatrenia proti kybernetickým útokom. Použila metodiku modelovania hrozieb: Fáza 1 — vytvorenie profilov hrozieb založených na aktívach. Fáza 2 — identifikácia zraniteľností infraštruktúry. Fáza 3 — vypracovanie bezpečnostnej stratégie a plánov. Ktorú metodiku Lizzy použila?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. TRIKE</button>
+            <button class="mcq-opt" data-key="B">B. VAST</button>
+            <button class="mcq-opt" data-key="C">C. OCTAVE</button>
+            <button class="mcq-opt" data-key="D">D. DREAD</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="B">
+          <p class="mcq-q"><span class="qn">18</span>Ktorý z nasledujúcich typov atribúcie hrozby sa zaoberá identifikáciou konkrétnej osoby, spoločnosti alebo štátu, ktorý sponzoruje dobre naplánovaný a vykonaný prienik alebo útok na svoj cieľ?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Atribúcia štátu (Nation-state attribution)</button>
+            <button class="mcq-opt" data-key="B">B. Skutočná atribúcia (True attribution)</button>
+            <button class="mcq-opt" data-key="C">C. Atribúcia kampane (Campaign attribution)</button>
+            <button class="mcq-opt" data-key="D">D. Atribúcia intrusion-setu</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="A">
+          <p class="mcq-q"><span class="qn">19</span>V tíme threat analytikov medzi sebou súperili dvaja jednotlivci pri presadzovaní vlastných hypotéz o danom malvéri. Manažér threat intelligence použil de-biasing stratégiu založenú na učení sa strategického rozhodovania v situáciách s viackrokovými interakciami medzi mnohými subjektmi, ktoré majú alebo nemajú úplné relevantné informácie. Ktorú de-biasing stratégiu manažér použil?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Teória hier (Game theory)</button>
+            <button class="mcq-opt" data-key="B">B. Strojové učenie (Machine learning)</button>
+            <button class="mcq-opt" data-key="C">C. Teória rozhodovania (Decision theory)</button>
+            <button class="mcq-opt" data-key="D">D. Kognitívna psychológia</button>
+          </div>
+        </div>
+        <div class="mcq-item" data-correct="C">
+          <p class="mcq-q"><span class="qn">20</span>Spoločnosť Cybersol Technologies spustila program cyber-threat intelligence s tímom threat intelligence analytikov. V rámci procesu začali analytici prevádzať surové dáta na užitočné informácie pomocou rôznych techník, ako sú strojové (machine-based) techniky a štatistické metódy. V ktorej fáze životného cyklu threat intelligence sa tím práve nachádza?</p>
+          <div class="mcq-opts">
+            <button class="mcq-opt" data-key="A">A. Diseminácia a integrácia</button>
+            <button class="mcq-opt" data-key="B">B. Plánovanie a riadenie</button>
+            <button class="mcq-opt" data-key="C">C. Spracovanie a exploitácia (Processing and exploitation)</button>
+            <button class="mcq-opt" data-key="D">D. Analýza a tvorba výstupov</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ FLASHCARDS ============ -->
     <section class="module wide" id="flashcards">
       <span class="module-eyebrow">Precvičovanie</span>
@@ -1362,6 +1610,51 @@ footer.page-footer{
     var btn = item.querySelector('.quiz-q');
     btn.addEventListener('click', function(){ item.classList.toggle('open'); });
   });
+
+  /* ---------- MC exam quiz (evaluated on click) ---------- */
+  (function(){
+    var items = Array.prototype.slice.call(document.querySelectorAll('#examquiz .mcq-item'));
+    var scoreEl = document.getElementById('mcq-score-n');
+    var totalEl = document.getElementById('mcq-score-total');
+    var resetBtn = document.getElementById('mcq-reset');
+    var score = 0;
+    if(totalEl) totalEl.textContent = items.length;
+    function updateScore(){ if(scoreEl) scoreEl.textContent = score; }
+
+    items.forEach(function(item){
+      var correct = item.getAttribute('data-correct');
+      var opts = Array.prototype.slice.call(item.querySelectorAll('.mcq-opt'));
+      opts.forEach(function(opt){
+        opt.addEventListener('click', function(){
+          if(item.classList.contains('answered')) return;
+          item.classList.add('answered');
+          var picked = opt.getAttribute('data-key');
+          opts.forEach(function(o){
+            if(o.getAttribute('data-key') === correct) o.classList.add('correct');
+          });
+          if(picked !== correct){
+            opt.classList.add('picked-wrong');
+          } else {
+            score++;
+            updateScore();
+          }
+        });
+      });
+    });
+
+    if(resetBtn){
+      resetBtn.addEventListener('click', function(){
+        score = 0;
+        updateScore();
+        items.forEach(function(item){
+          item.classList.remove('answered');
+          item.querySelectorAll('.mcq-opt').forEach(function(o){
+            o.classList.remove('correct', 'picked-wrong');
+          });
+        });
+      });
+    }
+  })();
 
   /* ---------- back to top ---------- */
   var topBtn = document.getElementById('top-btn');

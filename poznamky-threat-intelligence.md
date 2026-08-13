@@ -590,4 +590,134 @@ Chráň aj vlastnú udržateľnosť: time blocking, krátke sústredené bloky (
 
 **IR:** príprava → detekcia/analýza → containment/eradication/recovery → lessons learned.
 
+---
+
+# Skúškové cvičné otázky (test.docx)
+
+Otázky z výpisu skúškových otázok k certifikácii ECCouncil 312-85 (CTIA), preložené do slovenčiny. Zdrojový dokument obsahuje len stranu 1 a 2 z deviatich (otázky 1 – 20 z celkových 88) a neuvádza kľúč správnych odpovedí — slúžia teda len na precvičenie čítania a rozpoznania pojmov, nie ako overený test.
+
+## Strana 1 (otázky 1 – 10)
+
+**1.** Daniel je profesionálny hacker, ktorého cieľom je zaútočiť na systém a ukradnúť dáta a peniaze pre vlastný zisk. Hackuje s cieľom získať dôverné údaje, ako sú rodné čísla, osobné identifikačné údaje (PII) zamestnancov a informácie o kreditných kartách. Po získaní dôverných údajov ich ďalej predáva na čiernom trhu, aby zarobil peniaze. Do ktorej z nasledujúcich kategórií aktérov hrozby patrí Daniel?
+A. Priemyselní špióni
+B. Štátom sponzorovaní hackeri
+C. Insider threat (hrozba zvnútra)
+D. Organizovaní hackeri
+
+**2.** Útočník inštruuje boty, aby použili maskovací mechanizmus na skrytie miest, odkiaľ šíri phishing a malvér, v rýchlo sa meniacej sieti kompromitovaných botov. Pri tejto technike jedno doménové meno zodpovedá viacerým IP adresám. Ktorú z nasledujúcich techník útočník použil?
+A. Prenos DNS zóny (DNS zone transfer)
+B. Dynamické DNS (Dynamic DNS)
+C. DNS interrogation (výsluch DNS)
+D. Fast-Flux DNS
+
+**3.** Kathy chce zabezpečiť, aby zdieľala threat intelligence obsahujúcu citlivé informácie len s vhodným publikom. Preto použila Traffic Light Protocol (TLP). Ktorá farba TLP označuje, že informácia sa má zdieľať iba v rámci konkrétnej komunity?
+A. Červená (Red)
+B. Biela (White)
+C. Zelená (Green)
+D. Jantárová (Amber)
+
+**4.** Moses, threat intelligence analytik v spoločnosti InfoTec Inc., chce pomocou pokročilých operátorov Google vyhľadávania nájsť dôležité informácie o potenciálnych hrozbách, ktorým organizácia čelí. Chce zistiť, či nie sú niekde hostované falošné webové stránky s adresou podobnou URL organizácie. Ktorý z nasledujúcich vyhľadávacích dotazov Google by mal Moses použiť?
+A. related: www.infothech.org
+B. info: www.infothech.org
+C. link: www.infothech.org
+D. cache: www.infothech.org
+
+**5.** Tím threat intelligence analytikov vykonáva analýzu hrozby na danom malvéri a každý z nich prišiel s vlastnou teóriou a dôkazmi na jej podporu. Ktorý z nasledujúcich analytických procesov musí manažér threat intelligence použiť na identifikáciu najkonzistentnejšej teórie spomedzi všetkých?
+A. Threat modelling (modelovanie hrozieb)
+B. Application decomposition and analysis, ADA (dekompozícia a analýza aplikácie)
+C. Analysis of competing hypotheses, ACH (analýza konkurenčných hypotéz)
+D. Automatizovaná technická analýza
+
+**6.** Miley, analytička, chce znížiť objem zozbieraných dát a zjednodušiť ich ukladanie a zdieľanie. Používa filtrovanie, tagovanie a queuing (radenie do frontu), aby z veľkého množstva neštruktúrovaných dát vytriedila relevantné a štruktúrované údaje. Ktorú z nasledujúcich techník Miley použila?
+A. Sandboxing
+B. Normalizácia
+C. Vizualizácia dát
+D. Convenience sampling (výber pohodlnou vzorkou)
+
+**7.** Bob, threat analytik, pracuje v organizácii TechTop. Bol požiadaný, aby zbieral inteligenciu na pokrytie potrieb a požiadaviek Red Teamu v rámci organizácie. Ktorá z nasledujúcich možností predstavuje potreby Red Teamu?
+A. Inteligencia týkajúca sa nárastu útokov cielených na konkrétnu zraniteľnosť softvéru alebo operačného systému
+B. Inteligencia o najnovších zraniteľnostiach, aktéroch hrozieb a ich taktikách, technikách a postupoch (TTP)
+C. Inteligencia z analýzy najnovších útokov na podobné organizácie vrátane detailov o najnovších hrozbách a TTP
+D. Inteligencia odhaľujúca riziká súvisiace s rôznymi strategickými biznis rozhodnutiami
+
+**8.** Michael, threat analytik, pracuje v organizácii TechTop a bol požiadaný, aby vykonal analýzu cyber-threat intelligence. Po získaní informácií o hrozbách začal tieto informácie analyzovať a snaží sa pochopiť povahu hrozieb. V akej fáze cyber-threat intelligence sa Michael práve nachádza?
+A. Unknown unknowns (neznáme neznáme)
+B. Unknowns unknown
+C. Known unknowns (známe neznáme)
+D. Known knowns (známe známe)
+
+**9.** Spoločnosť Enrage Tech najala bezpečnostného analytika Enriqua na vykonanie analýzy threat intelligence. Pri zbere dát použil kontrarozviedny (counterintelligence) mechanizmus, kde sa na komunikáciu medzi servermi využíva rekurzívny DNS server. Keď je z ľubovoľného name servera vygenerovaná požiadavka na rekurzívny DNS server, tento server zaznamenáva prijaté odpovede. Tieto záznamy sa následne replikujú a ukladajú do centrálnej databázy. Pomocou týchto logov analyzoval škodlivé pokusy, ku ktorým dochádzalo cez DNS infraštruktúru. Ktorú z nasledujúcich techník zberu dát cyber counterintelligence (CCI) Enrique použil?
+A. Zber dát pomocou pasívneho monitorovania DNS (passive DNS monitoring)
+B. Zber dát pomocou DNS interrogation
+C. Zber dát pomocou prenosu DNS zóny (DNS zone transfer)
+D. Zber dát pomocou dynamického DNS (DDNS)
+
+**10.** John, profesionálny hacker, sa snaží vykonať APT útok na sieť cieľovej organizácie. Získal prístup do jedného systému cieľovej organizácie a rôznymi technikami sa snaží získať administrátorské prihlasovacie údaje, aby si rozšíril prístup k ďalším systémom v sieti. V akej fáze životného cyklu Advanced Persistent Threat (APT) sa John práve nachádza?
+A. Initial intrusion (počiatočný prienik)
+B. Search and exfiltration (vyhľadávanie a exfiltrácia)
+C. Expansion (rozšírenie)
+D. Persistence (udržanie prítomnosti)
+
+## Strana 2 (otázky 11 – 20)
+
+**11.** Jim pracuje ako bezpečnostný analytik vo veľkej nadnárodnej spoločnosti. Nedávno prenikla do ich firemnej siete skupina hackerov a na zber citlivých dát použila techniku data staging. Zozbierali najrôznejšie citlivé údaje o zamestnancoch a zákazníkoch, obchodnej taktike organizácie, finančné informácie, informácie o sieťovej infraštruktúre a podobne. Čo by mal Jim urobiť, aby odhalil data staging skôr, než hackeri dáta exfiltrujú zo siete?
+A. Jim by mal útok odhaliť v počiatočnej fáze kontrolou obsahu poľa user agent.
+B. Jim by mal analyzovať škodlivé DNS požiadavky, DNS payload, neurčené domény a cieľ DNS požiadaviek.
+C. Jim by mal monitorovať sieťovú premávku kvôli škodlivým prenosom súborov, sledovať integritu súborov (file integrity monitoring) a logy udalostí.
+D. Jim by mal identifikovať web shell bežiaci v sieti analýzou prístupov na server, chybových logov, podozrivých reťazcov naznačujúcich kódovanie, reťazcov user agent a podobne.
+
+**12.** Spoločnosť Andrews and Sons Corp. sa rozhodla zdieľať informácie o hrozbách medzi partnermi na zdieľanie. Garry, threat analytik pracujúci v Andrews and Sons Corp., má za úlohu dodržiavať model dôvery potrebný na vytvorenie dôvery medzi partnermi na zdieľanie. V modeli dôvery, ktorý používa, prvá organizácia využíva súbor dôkazov od druhej organizácie a úroveň dôvery medzi oboma organizáciami závisí od miery a kvality dôkazov, ktoré prvá organizácia poskytla. Ktorý z nasledujúcich typov modelu dôvery Garry použil na vytvorenie dôvery?
+A. Sprostredkovaná dôvera (Mediated trust)
+B. Nariadená dôvera (Mandated trust)
+C. Priama historická dôvera (Direct historical trust)
+D. Validovaná dôvera (Validated trust)
+
+**13.** Threat analytik získa informáciu o hrozbe vo forme požiadavky na pripojenie zo vzdialeného hostiteľa na server. Z týchto dát získa len IP adresu zdroja a cieľa, ale žiadny kontext. Pri spracovaní dát získa kontextovú informáciu, že server v krátkom čase prijíma množstvo požiadaviek na pripojenie z rôznych geografických lokalít, v dôsledku čoho je server zaťažený a jeho výkon postupne klesá. Ďalej vykoná analýzu informácií na základe minulých a súčasných skúseností a dospeje k záveru, akému útoku bola klientská organizácia vystavená. O ktorý z nasledujúcich útokov na klientskú organizáciu ide?
+A. DHCP útoky
+B. MAC spoofing útok
+C. Distributed Denial-of-Service (DDoS) útok
+D. Bandwidth útok (útok na šírku pásma)
+
+**14.** Jame, profesionálny hacker, sa snaží získať dôverné informácie cieľovej organizácie. Identifikoval zraniteľnosti v cieľovom systéme a vytvoril na mieru šitý škodlivý payload pomocou exploitu a backdooru, ktorý pošle obeti. Ktorú z nasledujúcich fáz metodiky cyber kill chain Jame práve vykonáva?
+A. Reconnaissance (prieskum)
+B. Installation (inštalácia)
+C. Weaponization (tvorba zbrane/payloadu)
+D. Exploitation (zneužitie zraniteľnosti)
+
+**15.** Steve pracuje ako analytik vo firme so sídlom v Spojenom kráľovstve. Bol požiadaný, aby vykonal monitorovanie siete a našiel prípadné dôkazy kompromitácie. Počas monitorovania siete zistil, že v krátkom čase dochádza k viacerým prihláseniam z rôznych lokalít. Okrem toho zaznamenal aj nezvyčajné vzory prihlasovania z lokalít, s ktorými organizácia nemá žiadne obchodné vzťahy. To naznačuje, že sa niekto snaží ukradnúť dôverné informácie. Ktorý z nasledujúcich kľúčových indikátorov kompromitácie (IoC) tento scenár predstavuje?
+A. Nezvyčajná odchádzajúca sieťová premávka
+B. Neočakávané patchovanie systémov
+C. Nezvyčajná aktivita cez privilegovaný používateľský účet
+D. Geografické anomálie
+
+**16.** Ktorá z nasledujúcich charakteristík APT označuje množstvo pokusov útočníka o vstup do siete cieľa?
+A. Tolerancia rizika (Risk tolerance)
+B. Timeliness (včasnosť)
+C. Attack origination points (miesta vzniku útoku)
+D. Multiphased (viacfázovosť)
+
+**17.** Lizzy, analytička, chce určiť úroveň rizika pre organizáciu, aby mohla naplánovať protiopatrenia proti kybernetickým útokom. Použila metodiku modelovania hrozieb pozostávajúcu z týchto fáz: Fáza 1 — vytvorenie profilov hrozieb založených na aktívach. Fáza 2 — identifikácia zraniteľností infraštruktúry. Fáza 3 — vypracovanie bezpečnostnej stratégie a plánov. Ktorú z nasledujúcich metodík modelovania hrozieb Lizzy v uvedenom scenári použila?
+A. TRIKE
+B. VAST
+C. OCTAVE
+D. DREAD
+
+**18.** Ktorý z nasledujúcich typov atribúcie hrozby sa zaoberá identifikáciou konkrétnej osoby, spoločnosti alebo štátu, ktorý sponzoruje dobre naplánovaný a vykonaný prienik alebo útok na svoj cieľ?
+A. Atribúcia štátu (Nation-state attribution)
+B. Skutočná atribúcia (True attribution)
+C. Atribúcia kampane (Campaign attribution)
+D. Atribúcia intrusion-setu (Intrusion-set attribution)
+
+**19.** V tíme threat analytikov medzi sebou súperili dvaja jednotlivci pri presadzovaní vlastných hypotéz o danom malvéri. Aby však našiel logické dôkazy na potvrdenie ich hypotéz, manažér threat intelligence použil de-biasing stratégiu založenú na učení sa strategického rozhodovania v situáciách s viackrokovými interakciami medzi mnohými subjektmi, ktoré majú alebo nemajú úplné relevantné informácie. Ktorú z nasledujúcich de-biasing stratégií manažér threat intelligence použil na potvrdenie ich hypotéz?
+A. Teória hier (Game theory)
+B. Strojové učenie (Machine learning)
+C. Teória rozhodovania (Decision theory)
+D. Kognitívna psychológia
+
+**20.** Spoločnosť Cybersol Technologies spustila program cyber-threat intelligence s tímom threat intelligence analytikov. V rámci procesu začali analytici prevádzať surové dáta na užitočné informácie pomocou rôznych techník, ako sú strojové (machine-based) techniky a štatistické metódy. V ktorej z nasledujúcich fáz životného cyklu threat intelligence sa tím práve nachádza?
+A. Diseminácia a integrácia (Dissemination and integration)
+B. Plánovanie a riadenie (Planning and direction)
+C. Spracovanie a exploitácia (Processing and exploitation)
+D. Analýza a tvorba výstupov (Analysis and production)
+
 **Dobrá inteligencia:** relevantná, aktuálna, presná, dôveryhodná, kontextová, včasná a actionable.
